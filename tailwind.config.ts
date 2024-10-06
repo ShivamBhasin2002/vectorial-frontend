@@ -9,8 +9,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: {
+          0: "var(--primary-0)",
+          20: "var(--primary-20)",
+          40: "var(--primary-40)",
+          60: "var(--primary-60)",
+          80: "var(--primary-80)",
+          100: "var(--primary-100)",
+        },
+        surface: {
+          0: "var(--surface-0)",
+          20: "var(--surface-20)",
+          40: "var(--surface-40)",
+          60: "var(--surface-60)",
+          80: "var(--surface-80)",
+          100: "var(--surface-100)",
+        },
+        mixed: {
+          0: "var(--mixed-0)",
+          20: "var(--mixed-20)",
+          40: "var(--mixed-40)",
+          60: "var(--mixed-60)",
+          80: "var(--mixed-80)",
+          100: "var(--mixed-100)",
+        },
       },
     },
   },
