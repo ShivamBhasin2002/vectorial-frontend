@@ -1,6 +1,6 @@
 import { DATA_STORAGE_SERVICE_ENDPOINT } from "../constants/restConstants";
-import { Chat } from "../types/chat";
-import { Product } from "../types/product";
+import { Chat } from "@constants/types/chat";
+import { Product } from "@constants/types/product";
 import { RestApiClient } from "./restClient";
 
 interface CreateChatOutput {

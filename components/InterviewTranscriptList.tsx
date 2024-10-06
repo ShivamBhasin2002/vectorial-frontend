@@ -1,5 +1,5 @@
-import React from 'react';
-import { FileList } from './FileList';
+import React from "react";
+import { FileList } from "./fileList";
 
 interface InterviewTranscriptListProps {
   files: {
@@ -12,11 +12,9 @@ interface InterviewTranscriptListProps {
   getFileIcon?: (fileType: string) => string;
 }
 
-export const InterviewTranscriptList: React.FC<InterviewTranscriptListProps> = ({
-  files,
-  onDelete,
-  getFileIcon
-}) => {
+export const InterviewTranscriptList: React.FC<
+  InterviewTranscriptListProps
+> = ({ files, onDelete, getFileIcon }) => {
   return (
     <FileList
       files={files}

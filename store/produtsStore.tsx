@@ -1,19 +1,27 @@
 import { create } from "zustand";
 import axios from "axios";
-import { Product } from "@types/product";
+import { Product } from "@constants/types/product";
 
 interface ProductState {
   products: Product[];
   selectedProduct: Product | null;
+  selectedProductId: string | null;
   fetchProducts: () => void;
-  setSelectedProdcut: (product: Product) => void;
+  setSelectedProduct: (product: string) => void;
 }
 
 export const useProductStore = create<ProductState>((set) => ({
   products: [],
   selectedProduct: null,
-  setSelectedProdcut: (product: Product) => {
-    set({ selectedProduct: product });
+  selectedProductId: null,
+  setSelectedProduct: (selectedProductId: string) => {
+    set(({ products }) => {
+      const selectedProduct = products.find(
+        ({ productId }) => productId === selectedProductId
+      );
+      console.trace(selectedProduct, selectedProductId);
+      return { selectedProductId, selectedProduct };
+    });
   },
   fetchProducts: async () => {
     try {

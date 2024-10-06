@@ -1,4 +1,4 @@
-import Chatbox from "@components/chat";
+import Chatbox from "@components/chatBox";
 import { Heading } from "@components/indexPageHeading";
 
 export default function Home() {
