@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { IoOpenSharp } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
 import { TiAttachmentOutline } from "react-icons/ti";
+import { IoSend } from "react-icons/io5";
 
 interface ChatboxProps {
   suggestionsPosition: "above" | "below";
@@ -22,7 +23,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
     <div
       className={clsx(
         "bg-primary-100 p-4 rounded-2xl w-[calc(100%-32px)] ml-[16px] flex flex-col gap-2 transition-transform ease-in-out relative z-0",
-        suggestionsPosition === "above" ? "mb-[-20px]" : "mt-[-20px]",
+        suggestionsPosition === "above" ? "mb-[-12px]" : "mt-[-20px]",
         !showSuggestions &&
           (suggestionsPosition === "above"
             ? "translate-y-[168px]"
@@ -50,6 +51,9 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       <ul className="flex flex-row-reverse gap-2 ">
         <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
           <IoOpenSharp />
+        </li>
+        <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
+          <IoSend />
         </li>
         <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
           <TiAttachmentOutline />

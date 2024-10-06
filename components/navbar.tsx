@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaEye, FaPlus } from "react-icons/fa";
 import clsx from "clsx";
 import { useProductStore } from "@store/produtsStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { products, fetchProducts, selectedProduct, setSelectedProdcut } =
     useProductStore();
@@ -25,7 +27,7 @@ const Navbar = () => {
   return (
     <div
       className={clsx(
-        "h-screen bg-mixed-20 text-white flex flex-col items-center p-4 pt-[64px] transition-all duration-300 ease-in-out absolute overflow-hidden",
+        "h-screen bg-mixed-20 text-white flex flex-col items-center p-4 pt-[64px] transition-all duration-300 ease-in-out fixed overflow-hidden left-0 top-0 bottom-0 z-50",
         isCollapsed ? "w-16" : "w-64"
       )}
       onMouseEnter={handleMouseEnter}
@@ -48,6 +50,7 @@ const Navbar = () => {
               title={product.productName}
               onClick={() => {
                 setSelectedProdcut(product);
+                router.push(`/product/${product.productId}`);
               }}
             >
               {product.productName}
@@ -56,7 +59,7 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex gap-2 flex-col">
         <button
           className={clsx(
             "focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full",
@@ -64,7 +67,21 @@ const Navbar = () => {
           )}
         >
           <FaPlus />
-          {!isCollapsed && <div className="whitespace-nowrap">New Project</div>}
+          {!isCollapsed && <div className="whitespace-nowrap">New Product</div>}
+        </button>
+        <button
+          className={clsx(
+            "focus:outline-none hover:bg-surface-60 flex gap-2 justify-center items-center p-2 rounded-xl w-full",
+            !isCollapsed && "bg-surface-80 "
+          )}
+          onClick={() => {
+            router.push("/product");
+          }}
+        >
+          <FaEye />
+          {!isCollapsed && (
+            <div className="whitespace-nowrap">View Products</div>
+          )}
         </button>
       </div>
     </div>
