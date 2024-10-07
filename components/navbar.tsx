@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     <div
       className={clsx(
-        "h-screen bg-mixed-20 text-white flex flex-col items-center p-4 pt-[64px] transition-all duration-300 ease-in-out fixed overflow-hidden left-0 top-0 bottom-0 z-50",
+        "h-screen bg-mixed-20 text-white flex flex-col items-center p-4 pt-[72px] transition-all duration-300 ease-in-out fixed overflow-hidden left-0 top-0 bottom-0 z-50",
         isNavbarOpen ? "w-64" : "w-16"
       )}
       onMouseEnter={handleMouseEnter}
@@ -45,7 +45,7 @@ const Navbar = () => {
       </div>
       <div className={clsx("flex-1 w-full", isNavbarOpen ? "block" : "hidden")}>
         <ul className="overflow-y-auto">
-          {products.map((product, index) => (
+          {Object.values(products).map((product, index) => (
             <li
               key={index}
               className={clsx(
@@ -65,21 +65,13 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div className="mt-auto flex gap-2 flex-col">
-        <button
-          className={clsx(
-            "focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full",
-            isNavbarOpen && "bg-primary-60 "
-          )}
-        >
+      <div className="mt-auto flex gap-2 flex-col w-full">
+        <button className="focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-primary-60 h-8 overflow-hidden">
           <FaPlus />
           {isNavbarOpen && <div className="whitespace-nowrap">New Product</div>}
         </button>
         <button
-          className={clsx(
-            "focus:outline-none hover:bg-surface-60 flex gap-2 justify-center items-center p-2 rounded-xl w-full",
-            isNavbarOpen && "bg-surface-80 "
-          )}
+          className="focus:outline-none hover:bg-surface-60 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-surface-80 h-8 overflow-hidden"
           onClick={() => {
             router.push("/product");
           }}

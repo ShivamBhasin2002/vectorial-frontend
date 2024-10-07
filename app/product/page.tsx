@@ -9,7 +9,7 @@ export const Product = () => {
     <main className="w-[1024px] mx-auto min-h-screen pt-[80px]">
       <div className="text-white mb-8 text-3xl font-bold ">Products</div>
       <div className="flex gap-4 flex-wrap ">
-        {products.map((product) => (
+        {Object.values(products).map((product) => (
           <ProductCard
             key={`product-${product.productId}`}
             isSelected={selectedProductId === product.productId}

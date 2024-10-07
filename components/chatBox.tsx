@@ -1,10 +1,11 @@
 "use client";
 import clsx from "clsx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoOpenSharp } from "react-icons/io5";
 import { FaFileUpload } from "react-icons/fa";
 import { TiAttachmentOutline } from "react-icons/ti";
 import { IoSend } from "react-icons/io5";
+import { useChatStore } from "@store/chatStore";
 
 interface ChatboxProps {
   suggestionsPosition: "above" | "below";
@@ -18,7 +19,14 @@ const suggestions = [
 
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const [showSuggestions, toggleSuggestions] = useState(true);
+  const { selectedChatId } = useChatStore();
   const ref = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (!selectedChatId && !ref.current?.value) toggleSuggestions(true);
+    else toggleSuggestions(false);
+  }, [selectedChatId]);
+
   const renderSuggestions = () => (
     <div
       className={clsx(
@@ -26,7 +34,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
         suggestionsPosition === "above" ? "mb-[-48px]" : "mt-[-20px]",
         !showSuggestions &&
           (suggestionsPosition === "above"
-            ? "translate-y-[148px]"
+            ? "translate-y-[148px] mt-[-120px]"
             : "translate-y-[-106px]")
       )}
     >
