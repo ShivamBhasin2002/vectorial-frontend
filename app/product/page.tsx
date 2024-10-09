@@ -3,7 +3,7 @@
 import { ProductCard } from "@components/productCard";
 import { useProductStore } from "@store/productsStore";
 
-export const Product = () => {
+export default function Product() {
   const { products, selectedProductId } = useProductStore();
   return (
     <main className="w-[1024px] mx-auto min-h-screen pt-[80px]">
@@ -20,5 +20,3 @@ export const Product = () => {
     </main>
   );
 };
-
-export default Product;
