@@ -17,6 +17,7 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
           "bg-primary-20 hover:bg-primary-20 text-white"
       )}
       onClick={() => {
+        if (!chatId) return;
         setSelectedChatId(chatId);
         router.push(`/product/${productId}/chat/${chatId}`);
       }}
@@ -38,16 +39,14 @@ export const ChatsListing = () => {
       {chats &&
         chats?.length !== 0 &&
         chats.map((chat) => <ChatComponent {...chat} key={chat.chatId} />)}
-      <button className="focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-primary-60 h-10 mt-auto overflow-hidden">
+      <button
+        className="focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-primary-60 h-10 mt-auto overflow-hidden"
+        onClick={() => {
+          router.push(`/product/${productId}`);
+        }}
+      >
         <FaPlus />
-        <div
-          className="whitespace-nowrap text-white font-bold"
-          onClick={() => {
-            router.push(`/product/${productId}`);
-          }}
-        >
-          New Chat
-        </div>
+        <div className="whitespace-nowrap text-white font-bold">New Chat</div>
       </button>
     </div>
   );

@@ -6,6 +6,9 @@ import { FaFileUpload } from "react-icons/fa";
 import { TiAttachmentOutline } from "react-icons/ti";
 import { IoSend } from "react-icons/io5";
 import { useChatStore } from "@store/chatStore";
+import { useParams, useRouter } from "next/navigation";
+import { useProductStore } from "@store/productsStore";
+import { usePageStore } from "@store/pageStore";
 
 interface ChatboxProps {
   suggestionsPosition: "above" | "below";
@@ -18,17 +21,21 @@ const suggestions = [
 ];
 
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
+  const router = useRouter();
   const [showSuggestions, toggleSuggestions] = useState(true);
   const { selectedChatId, upsertChat, byChatId, handleNewMessage } =
     useChatStore();
+  const { selectedProductId } = useProductStore();
+  const { setSideBarState } = usePageStore();
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const { chatId } = useParams();
 
   useEffect(() => {
-    if (!selectedChatId && !inputRef.current?.value) toggleSuggestions(true);
+    if (!chatId && !inputRef.current?.value) toggleSuggestions(true);
     else {
       toggleSuggestions(false);
     }
-  }, [selectedChatId]);
+  }, [chatId]);
 
   const handleSubmit = () => {
     const message = inputRef.current?.value;
@@ -37,7 +44,13 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       ? byChatId[selectedChatId].chatMessages
       : [];
     handleNewMessage({ message, chatId: selectedChatId, chatHistory });
-    upsertChat({ message, chatId: selectedChatId, chatHistory });
+    upsertChat({
+      message,
+      chatId: selectedChatId,
+      chatHistory,
+      productId: selectedProductId,
+    });
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   const renderSuggestions = () => (
@@ -70,16 +83,40 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
         ))}
       </ul>
       <ul className="flex flex-row-reverse gap-2 ">
-        <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
+        <li
+          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          onClick={() => {
+            setSideBarState("Description");
+            router.push(`/product/${selectedProductId}`);
+          }}
+        >
           <IoOpenSharp />
         </li>
-        <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
+        <li
+          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          onClick={() => {
+            setSideBarState("Chats");
+            router.push(`/product/${selectedProductId}`);
+          }}
+        >
           <IoSend />
         </li>
-        <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
+        <li
+          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          onClick={() => {
+            setSideBarState("Files");
+            router.push(`/product/${selectedProductId}`);
+          }}
+        >
           <TiAttachmentOutline />
         </li>
-        <li className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100">
+        <li
+          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          onClick={() => {
+            setSideBarState("Transcripts");
+            router.push(`/product/${selectedProductId}`);
+          }}
+        >
           <FaFileUpload />
         </li>
       </ul>
@@ -87,7 +124,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   );
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto relative">
       {suggestionsPosition === "above" && renderSuggestions()}
       <textarea
         ref={inputRef}
@@ -103,6 +140,16 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           else toggleSuggestions(false);
         }}
       />
+      {suggestionsPosition === "above" && (
+        <li
+          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100 absolute right-4 bottom-4 z-50 "
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          <IoSend />
+        </li>
+      )}
       {suggestionsPosition === "below" && renderSuggestions()}
     </div>
   );
