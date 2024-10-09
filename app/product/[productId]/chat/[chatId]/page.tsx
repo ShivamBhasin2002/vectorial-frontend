@@ -4,7 +4,7 @@ import { ChatInterface } from "@components/chatInterface";
 import { SideBar } from "@components/sidebar/index";
 import { useChatStore } from "@store/chatStore";
 import { usePageStore } from "@store/pageStore";
-import { useProductStore } from "@store/produtsStore";
+import { useProductStore } from "@store/productsStore";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
@@ -12,13 +12,17 @@ import { useEffect } from "react";
 export const ChatPage = () => {
   const { isNavbarOpen } = usePageStore();
   const { setSelectedProduct, selectedProductId } = useProductStore();
-  const { byChatId, byProductId } = useChatStore();
-  const { productId } = useParams();
+  const { setSelectedChatId } = useChatStore();
+  const { productId, chatId } = useParams();
 
   useEffect(() => {
     if (!productId && selectedProductId === productId) return;
     setSelectedProduct(productId as string);
   }, [productId]);
+
+  useEffect(() => {
+    setSelectedChatId(chatId as string);
+  }, [chatId]);
 
   return (
     <main

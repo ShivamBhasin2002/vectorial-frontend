@@ -36,7 +36,6 @@ const FileSpace: React.FC<FileSpaceProps> = ({ productId }) => {
     isTranscript: boolean
   ) => {
     const dataStorageAccessor = new DataStorageAccessor();
-
     for (let i = 0; i < newFiles.length; i++) {
       const file = newFiles[i];
       try {

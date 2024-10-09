@@ -1,5 +1,5 @@
 "use client";
-import { useProductStore } from "@store/produtsStore";
+import { useProductStore } from "@store/productsStore";
 import React from "react";
 
 export const Heading = ({}) => {

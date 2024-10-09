@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { FaEye, FaPlus } from "react-icons/fa";
 import clsx from "clsx";
-import { useProductStore } from "@store/produtsStore";
+import { useProductStore } from "@store/productsStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePageStore } from "@store/pageStore";

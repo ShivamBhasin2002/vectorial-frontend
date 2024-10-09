@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductCard } from "@components/productCard";
-import { useProductStore } from "@store/produtsStore";
+import { useProductStore } from "@store/productsStore";
 
 export const Product = () => {
   const { products, selectedProductId } = useProductStore();

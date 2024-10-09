@@ -19,13 +19,26 @@ const suggestions = [
 
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const [showSuggestions, toggleSuggestions] = useState(true);
-  const { selectedChatId } = useChatStore();
-  const ref = useRef<HTMLTextAreaElement>(null);
+  const { selectedChatId, upsertChat, byChatId, handleNewMessage } =
+    useChatStore();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (!selectedChatId && !ref.current?.value) toggleSuggestions(true);
-    else toggleSuggestions(false);
+    if (!selectedChatId && !inputRef.current?.value) toggleSuggestions(true);
+    else {
+      toggleSuggestions(false);
+    }
   }, [selectedChatId]);
+
+  const handleSubmit = () => {
+    const message = inputRef.current?.value;
+    if (!message) return;
+    const chatHistory = selectedChatId
+      ? byChatId[selectedChatId].chatMessages
+      : [];
+    handleNewMessage({ message, chatId: selectedChatId, chatHistory });
+    upsertChat({ message, chatId: selectedChatId, chatHistory });
+  };
 
   const renderSuggestions = () => (
     <div
@@ -47,9 +60,9 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
             key={suggestion}
             className="cursor-pointer flex-1 bg-primary-60 p-2 text-wrap rounded-lg text-white hover:bg-primary-40 max-h-16"
             onClick={() => {
-              const inputRef = ref.current;
-              if (!inputRef) return;
-              inputRef.value = suggestion;
+              const input = inputRef.current;
+              if (!input) return;
+              input.value = suggestion;
             }}
           >
             {suggestion}
@@ -77,11 +90,16 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
     <div className="w-full mx-auto">
       {suggestionsPosition === "above" && renderSuggestions()}
       <textarea
-        ref={ref}
+        ref={inputRef}
         className="w-full rounded-2xl p-4 min-w-[672px] min-h-[200px] bg-surface-20 relative z-10 outline-none"
         placeholder="Message to Vectorial AI Agent regarding Product"
+        onKeyDown={(e) => {
+          if (e.key !== "Enter") return;
+          e.preventDefault();
+          handleSubmit();
+        }}
         onChange={(e) => {
-          if (!e.target.value) toggleSuggestions(true);
+          if (!e.target.value && !selectedChatId) toggleSuggestions(true);
           else toggleSuggestions(false);
         }}
       />

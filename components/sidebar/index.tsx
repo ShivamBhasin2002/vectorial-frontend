@@ -3,6 +3,7 @@ import { sideBarStates, usePageStore } from "@store/pageStore";
 import Tabs from "@components/tabs";
 import { ChatsListing } from "./chatsListing";
 import { FilesListing } from "./fileListing";
+import Description from "./description";
 
 export const SideBar = () => {
   const { sideBarState, setSideBarState } = usePageStore();
@@ -20,7 +21,10 @@ export const SideBar = () => {
       <Tabs tabs={sideBarTabs} activeTab={sideBarState} onClick={onClick} />
       {sideBarState === "Chats" && <ChatsListing />}
       {sideBarState === "Files" && <FilesListing fileType="Files" />}
-      {sideBarState === "Transcripts" && <FilesListing fileType="Transcripts" />}
+      {sideBarState === "Transcripts" && (
+        <FilesListing fileType="Transcripts" />
+      )}
+      {sideBarState === "Description" && <Description />}
     </div>
   );
 };
