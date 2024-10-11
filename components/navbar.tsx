@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePageStore } from "@store/pageStore";
 import NewProduct from "./newProduct";
+import { VscExtensions } from "react-icons/vsc";
 
 const Navbar = () => {
   const router = useRouter();
@@ -43,9 +44,16 @@ const Navbar = () => {
             router.push("/");
           }}
         >
-          <Image src="/static/images/logo.png" alt="Vectorial logo" width={40} height={40} />
+          <Image
+            src="/static/images/logo.png"
+            alt="Vectorial logo"
+            width={40}
+            height={40}
+          />
           {isNavbarOpen && (
-            <div className="whitespace-nowrap font-extrabold pr-4">Vectorial AI</div>
+            <div className="whitespace-nowrap font-extrabold pr-4">
+              Vectorial AI
+            </div>
           )}
         </div>
         <div
@@ -93,6 +101,17 @@ const Navbar = () => {
             <FaEye />
             {isNavbarOpen && (
               <div className="whitespace-nowrap">View Products</div>
+            )}
+          </button>
+          <button
+            className="focus:outline-none hover:bg-darkGrey flex gap-2 justify-center items-center p-2 rounded-xl w-full h-8 overflow-hidden"
+            onClick={() => {
+              router.push("/integrations");
+            }}
+          >
+            <VscExtensions />
+            {isNavbarOpen && (
+              <div className="whitespace-nowrap">Integrations</div>
             )}
           </button>
         </div>
