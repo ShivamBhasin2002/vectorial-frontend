@@ -43,7 +43,7 @@ const Navbar = () => {
             router.push("/");
           }}
         >
-          <Image src="/logo.png" alt="Vectorial logo" width={40} height={40} />
+          <Image src="/static/logo.png" alt="Vectorial logo" width={40} height={40} />
           {isNavbarOpen && (
             <div className="whitespace-nowrap">Vectorial AI</div>
           )}
