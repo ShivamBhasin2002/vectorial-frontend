@@ -1,2 +1,2 @@
-export const DATA_STORAGE_SERVICE_ENDPOINT = "https://xnya29yu85.execute-api.us-west-2.amazonaws.com/prod";
-export const CHAT_AGENT_API_ENDPOINT = "https://nwi18wng80.execute-api.us-west-2.amazonaws.com/prod/";
+export const DATA_STORAGE_SERVICE_ENDPOINT = "https://data-api.run-vectorial-api.xyz";
+export const CHAT_AGENT_API_ENDPOINT = "https://chat-api.run-vectorial-api.xyz";
