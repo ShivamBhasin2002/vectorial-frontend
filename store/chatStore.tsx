@@ -12,13 +12,21 @@ export interface ChatMessage {
   content: string;
 }
 
-const getRagResponse = async (
-  conversations: { role: string; content: string }[]
-): Promise<string> => {
+const getRagResponse = async (args: {
+  productId: string;
+  chatId: string;
+  message: string;
+}): Promise<string> => {
   try {
+    const chatRequest = {
+      product_id: args.productId,
+      thread_id: args.chatId,
+      human_input: args.message,
+    };
+
     const response = await axios.post<{ response: string }>(
-      `${CHAT_AGENT_API_ENDPOINT}/rag/`,
-      { conversations },
+      `${CHAT_AGENT_API_ENDPOINT}/agent/langgraph/`,
+      chatRequest,
       {
         headers: {
           "Content-Type": "application/json",
@@ -122,12 +130,6 @@ export const useChatStore = create<ChatState>((set) => ({
       upsertChat(byChatId[chatId]);
       return { byChatId, showLoading: true };
     });
-    const aiResponse = await getRagResponse(
-      updatedChat.map((msg) => ({
-        role: msg.senderType,
-        content: msg.message,
-      }))
-    );
     if (!chatId) {
       chatId = await upsertChat({
         chatId: null,
@@ -136,14 +138,27 @@ export const useChatStore = create<ChatState>((set) => ({
         chatTitle: "Untitiled Chat",
         createAt: Date.now().toString(),
         updatedAt: Date.now().toString(),
-        chatMessages: [
-          ...updatedChat,
-          { senderType: "AI", message: aiResponse },
-        ],
+        chatMessages: updatedChat,
         fileUris: [],
       });
-      window.open(`/product/${productId}/chat/${chatId}`, "_self");
     }
+    const aiResponse = await getRagResponse({
+      productId: productId || "",
+      message,
+      chatId,
+    });
+    await upsertChat({
+      chatId,
+      productId: productId ?? "",
+      userId: null,
+      chatTitle: "Untitiled Chat",
+      createAt: Date.now().toString(),
+      updatedAt: Date.now().toString(),
+      chatMessages: [...updatedChat, { senderType: "AI", message: aiResponse }],
+      fileUris: [],
+    });
+    if (!chatIdFromProps)
+      window.open(`/product/${productId}/chat/${chatId}`, "_self");
     set(({ byChatId }) => {
       if (!chatId) return {};
       if (byChatId[chatId])

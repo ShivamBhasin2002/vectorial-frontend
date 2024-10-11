@@ -8,12 +8,12 @@ const Description = () => {
     : {};
   return (
     <div className="flex flex-col gap-4">
-      <div className="text-white text-lg">
-        Product Name: <span className="text-primary-40">{productName}</span>
+      <div className="text-black text-lg">
+        Product Name: <span className="text-purps font-extrabold">{productName}</span>
       </div>
-      <div className="text-white text-lg">
+      <div className="text-black text-lg">
         <div>About Product:</div>{" "}
-        <div className="text-primary-40">{productDescription}</div>
+        <div className="text-purps font-bold">{productDescription}</div>
       </div>
     </div>
   );

@@ -12,9 +12,9 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
   return (
     <div
       className={clsx(
-        "rounded-lg cursor-pointer w-full p-2 bg-white/20 hover:bg-white/10 font-bold overflow-hidden whitespace-nowrap text-ellipsis",
+        "rounded-lg cursor-pointer w-full p-2 bg-grey hover:bg-yellow font-bold overflow-hidden whitespace-nowrap text-ellipsis",
         chatId === selectedChatId &&
-          "bg-primary-20 hover:bg-primary-20 text-white"
+          "bg-yellow hover:bg-yellow/60 text-black"
       )}
       onClick={() => {
         if (!chatId) return;
@@ -40,13 +40,13 @@ export const ChatsListing = () => {
         chats?.length !== 0 &&
         chats.map((chat) => <ChatComponent {...chat} key={chat.chatId} />)}
       <button
-        className="focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-primary-60 h-10 mt-auto overflow-hidden"
+        className="focus:outline-none hover:bg-yellow flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-yellow h-10 mt-auto overflow-hidden"
         onClick={() => {
           router.push(`/product/${productId}`);
         }}
       >
         <FaPlus />
-        <div className="whitespace-nowrap text-white font-bold">New Chat</div>
+        <div className="whitespace-nowrap text-black font-bold">New Chat</div>
       </button>
     </div>
   );

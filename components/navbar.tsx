@@ -31,14 +31,14 @@ const Navbar = () => {
     <>
       <div
         className={clsx(
-          "h-screen bg-mixed-20 text-white flex flex-col items-center p-4 pt-[72px] transition-all duration-300 ease-in-out fixed overflow-hidden left-0 top-0 bottom-0 z-50",
+          "h-screen bg-offwhite text-black flex flex-col items-center p-4 pt-[72px] transition-all duration-300 ease-in-out fixed overflow-hidden left-0 top-0 bottom-0 z-50 border-l border-l-grey",
           isNavbarOpen ? "w-64" : "w-16"
         )}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <div
-          className="flex gap-2 fixed top-4 left-4 justify-center items-center cursor-pointer"
+          className="flex gap-2 fixed top-4 left-4 justify-center items-center cursor-pointer hover:bg-darkGrey rounded-xl"
           onClick={() => {
             router.push("/");
           }}
@@ -56,9 +56,9 @@ const Navbar = () => {
               <li
                 key={index}
                 className={clsx(
-                  "truncate px-2 py-1 hover:bg-primary-40 rounded-lg cursor-pointer mb-1",
+                  "truncate px-2 py-1 hover:bg-darkGrey hover:font-bold rounded-lg cursor-pointer mb-1",
                   selectedProductId === product.productId &&
-                    "bg-primary-40 hover:bg-primary-80"
+                    "bg-darkGrey font-bold"
                 )}
                 title={product.productName}
                 onClick={() => {
@@ -74,7 +74,7 @@ const Navbar = () => {
 
         <div className="mt-auto flex gap-2 flex-col w-full">
           <button
-            className="focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-primary-60 h-8 overflow-hidden"
+            className="focus:outline-none hover:bg-darkGrey flex gap-2 justify-center items-center p-2 rounded-xl w-full h-8 overflow-hidden"
             onClick={() => {
               toggleNewProductPanelOpen(true);
             }}
@@ -85,7 +85,7 @@ const Navbar = () => {
             )}
           </button>
           <button
-            className="focus:outline-none hover:bg-surface-60 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-surface-80 h-8 overflow-hidden"
+            className="focus:outline-none hover:bg-darkGrey flex gap-2 justify-center items-center p-2 rounded-xl w-full h-8 overflow-hidden"
             onClick={() => {
               router.push("/product");
             }}

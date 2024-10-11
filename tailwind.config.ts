@@ -9,6 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        offwhite: "#f9f9f8",
+        purps: "#665cc8",
+        grey: "#e2e3e1",
+        darkGrey: "#EFEFEE",
+        blue: "#0B2230",
+        yellow: "#F9D133",
+
         primary: {
           0: "var(--primary-0)",
           20: "var(--primary-20)",

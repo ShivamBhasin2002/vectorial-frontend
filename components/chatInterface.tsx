@@ -28,23 +28,21 @@ export const ChatInterface = () => {
   return (
     <div
       ref={chatContainerRef}
-      className="overflow-y-auto max-h-[calc(100vh-271px)] rounded-xl shadow-md scroll-smooth text-primary-40"
+      className="overflow-y-auto max-h-[calc(100vh-271px)] rounded-xl  scroll-smooth text-black"
     >
       {chatHistory.map((msg, index) => (
         <div
           key={index}
-          className={`flex ${
-            msg.senderType === "User" ? "justify-end" : "justify-start"
+          className={`flex bg-grey rounded-xl ${
+            msg.senderType === "User" ? "justify-end w-fit ml-auto" : "justify-start"
           } p-2 my-2`}
         >
-          <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-white shadow-md mr-2">
+          <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-purps shadow-md mr-2 text-white">
             {msg.senderType === "User" && <FaUser className="text-xl" />}
             {msg.senderType === "AI" && <FaRobot className="text-xl" />}
           </div>
           <div
-            className={`flex items-start bg-${
-              msg.senderType === "User" ? "[#daf8e3]" : "gray-200"
-            } rounded-xl max-w-4/5 min-w-[2.5%] shadow-sm p-3`}
+            className={`flex items-start  rounded-xl max-w-4/5 min-w-[2.5%] shadow-sm p-3`}
           >
             <div className="flex-1 text-left">
               <ReactMarkdown>{msg.message}</ReactMarkdown>
@@ -54,7 +52,7 @@ export const ChatInterface = () => {
       ))}
       {showLoading && (
         <div className="flex justify-start p-2 my-2">
-          <div className="flex items-center bg-gray-200 rounded-xl max-w-4/5 shadow-sm p-3">
+          <div className="flex items-center bg-grey rounded-xl max-w-4/5 shadow-sm p-3">
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md mr-2">
               <FaRobot className="text-xl" />
             </div>

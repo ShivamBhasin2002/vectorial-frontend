@@ -23,7 +23,7 @@ const suggestions = [
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const router = useRouter();
   const [showSuggestions, toggleSuggestions] = useState(true);
-  const { selectedChatId, upsertChat, byChatId, handleNewMessage } =
+  const { selectedChatId, upsertChat, byChatId, handleNewMessage, j } =
     useChatStore();
   const { selectedProductId } = useProductStore();
   const { setSideBarState } = usePageStore();
@@ -56,8 +56,8 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const renderSuggestions = () => (
     <div
       className={clsx(
-        "bg-primary-100 p-4 rounded-2xl w-[calc(100%-32px)] ml-[16px] flex flex-col gap-4 transition-transform ease-in-out relative z-0",
-        suggestionsPosition === "above" ? "mb-[-48px]" : "mt-[-20px]",
+        "bg-white border-grey border-2 p-4 rounded-2xl w-[calc(100%-32px)] ml-[16px] flex flex-col gap-4 transition-transform ease-in-out relative z-0",
+        suggestionsPosition === "above" ? "mb-[-50px]" : "mt-[-22px]",
         !showSuggestions &&
           (suggestionsPosition === "above"
             ? "translate-y-[148px] mt-[-120px]"
@@ -71,7 +71,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
         {suggestions.map((suggestion) => (
           <li
             key={suggestion}
-            className="cursor-pointer flex-1 bg-primary-60 p-2 text-wrap rounded-lg text-white hover:bg-primary-40 max-h-16"
+            className="cursor-pointer flex-1 bg-yellow p-2 text-wrap rounded-lg text-black font-bold hover:bg-yellow/80 max-h-16"
             onClick={() => {
               const input = inputRef.current;
               if (!input) return;
@@ -128,7 +128,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       {suggestionsPosition === "above" && renderSuggestions()}
       <textarea
         ref={inputRef}
-        className="w-full rounded-2xl p-4 min-w-[672px] min-h-[200px] bg-surface-20 relative z-10 outline-none"
+        className="w-full rounded-2xl p-4 min-w-[672px] min-h-[200px] bg-offwhite border-4 border-purps relative z-10 outline-none text-black"
         placeholder="Message to Vectorial AI Agent regarding Product"
         onKeyDown={(e) => {
           if (e.key !== "Enter") return;

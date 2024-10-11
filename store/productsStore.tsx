@@ -77,7 +77,7 @@ export const useProductStore = create<ProductState>((set) => ({
   fetchProducts: async () => {
     try {
       const response = await axios.get<Product[]>(
-        "http://vectorialdemodatastorageenv.eba-gr44gfai.us-west-2.elasticbeanstalk.com/api/products"
+        `${DATA_STORAGE_SERVICE_ENDPOINT}/api/products`
       );
       const productsArr = response.data;
       const products = productsArr.reduce(

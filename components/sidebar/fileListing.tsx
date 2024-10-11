@@ -20,13 +20,13 @@ const FileComponet = ({
       <a
         href={fileUrl}
         className={clsx(
-          "rounded-lg cursor-pointer w-full p-2 bg-white/20 hover:bg-white/10 font-bold overflow-hidden whitespace-nowrap text-ellipsis flex-1"
+          "rounded-lg cursor-pointer w-full p-2 bg-grey hover:bg-purps/20 font-bold overflow-hidden whitespace-nowrap text-ellipsis flex-1"
         )}
       >
         {fileName}
       </a>
       <div
-        className="rounded-lg cursor-pointer h-[40px] w-[40px] bg-white/20 hover:bg-white/10 text-red-600 flex justify-center items-center"
+        className="rounded-lg cursor-pointer h-[40px] w-[40px] bg-grey hover:bg-red-200 text-red-600 flex justify-center items-center"
         onClick={() => {
           deleteFile({
             fileType,
@@ -67,10 +67,10 @@ export const FilesListing = ({ fileType }: { fileType: sideBarStates }) => {
         ))}
       <label
         htmlFor="fileInput"
-        className="focus:outline-none hover:bg-primary-100 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-primary-60 h-10 overflow-hidden mt-auto"
+        className="focus:outline-none hover:bg-yellow flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-yellow h-10 mt-auto overflow-hidden"
       >
         <FaPlus />
-        <div className="whitespace-nowrap text-white font-bold">
+        <div className="whitespace-nowrap text-black font-bold">
           New {fileType === "Files" ? "File" : "Transcript"}
         </div>
       </label>
