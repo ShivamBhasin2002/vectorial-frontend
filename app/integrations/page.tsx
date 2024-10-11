@@ -1,6 +1,3 @@
-import Chatbox from "@components/chatBox";
-import HorizontalList from "@components/horizontalList";
-import { Heading } from "@components/indexPageHeading";
 import { FaFigma, FaPlus, FaSlack } from "react-icons/fa";
 import { RiNotionFill } from "react-icons/ri";
 import { SiJira, SiTestinglibrary } from "react-icons/si";
