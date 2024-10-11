@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { FaFigma, FaPlus, FaSlack } from "react-icons/fa";
 import { RiNotionFill } from "react-icons/ri";
 import { SiJira, SiTestinglibrary } from "react-icons/si";
@@ -7,7 +8,7 @@ const ConnectionTabs = ({
   title,
   description,
 }: {
-  icon: any;
+  icon: ReactNode;
   title: string;
   description: string;
 }) => {
