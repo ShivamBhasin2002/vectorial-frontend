@@ -14,9 +14,9 @@ export const Heading = ({}) => {
     setSelectedProduct(recentProduct.productId);
   }, [products]);
   return (
-    <div className="text-white mb-8 ">
+    <div className="text-black mb-8 font-bold">
       Continue chatting on product:{" "}
-      <strong className="text-primary-60">
+      <strong className="text-purps font-extrabold">
         {selectedProductId && products[selectedProductId]?.productName}
       </strong>{" "}
     </div>

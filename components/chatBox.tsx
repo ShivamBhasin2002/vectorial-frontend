@@ -23,7 +23,7 @@ const suggestions = [
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const router = useRouter();
   const [showSuggestions, toggleSuggestions] = useState(true);
-  const { selectedChatId, upsertChat, byChatId, handleNewMessage, j } =
+  const { selectedChatId, upsertChat, byChatId, handleNewMessage, } =
     useChatStore();
   const { selectedProductId } = useProductStore();
   const { setSideBarState } = usePageStore();
@@ -71,7 +71,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
         {suggestions.map((suggestion) => (
           <li
             key={suggestion}
-            className="cursor-pointer flex-1 bg-yellow p-2 text-wrap rounded-lg text-black font-bold hover:bg-yellow/80 max-h-16"
+            className="cursor-pointer flex-1 bg-yellow p-2 text-wrap rounded-lg text-black font-bold hover:bg-yellow/80 max-h-16 overflow-hidden line-clamp-2"
             onClick={() => {
               const input = inputRef.current;
               if (!input) return;

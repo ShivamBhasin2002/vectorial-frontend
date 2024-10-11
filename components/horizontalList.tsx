@@ -10,7 +10,7 @@ const ListItem = ({ text, url }: { text: string; url: string }) => {
   const router = useRouter();
   return (
     <div
-      className="bg-surface-20 hover:bg-primary-40 hover:text-white p-4 line-clamp-3 rounded-lg min-w-[200px] cursor-pointer"
+      className="bg-grey hover:bg-yellow text-black hover:font-semibold p-4 line-clamp-3 rounded-lg min-w-[200px] cursor-pointer whitespace-nowrap"
       onClick={() => {
         router.push(url);
       }}
