@@ -158,7 +158,7 @@ export const useChatStore = create<ChatState>((set) => ({
       fileUris: [],
     });
     if (!chatIdFromProps)
-      window.open(`/product/${productId}/chat/${chatId}`, "_self");
+      window.open(`/dashboard/product/${productId}/chat/${chatId}`, "_self");
     set(({ byChatId }) => {
       if (!chatId) return {};
       if (byChatId[chatId])

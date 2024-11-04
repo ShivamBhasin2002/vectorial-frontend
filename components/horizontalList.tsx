@@ -41,11 +41,11 @@ const HorizontalList = ({ type }: { type: "chats" | "products" }) => {
           className="text-sm flex gap-2 items-center cursor-pointer"
           onClick={() => {
             if (type === "chats") {
-              router.push(`/product/${selectedProductId}`);
+              router.push(`/dashboard/product/${selectedProductId}`);
               setSideBarState("Chats");
             }
             if (type === "products") {
-              router.push(`/product`);
+              router.push(`/dashboard/product`);
             }
           }}
         >
@@ -61,7 +61,7 @@ const HorizontalList = ({ type }: { type: "chats" | "products" }) => {
               <ListItem
                 key={`${chat.chatId}`}
                 text={chat.chatTitle || ""}
-                url={`/product/${selectedProductId}/chat/${chat.chatId}`}
+                url={`/dashboard/product/${selectedProductId}/chat/${chat.chatId}`}
               />
             ))}
         {type === "products" &&
@@ -69,7 +69,7 @@ const HorizontalList = ({ type }: { type: "chats" | "products" }) => {
             <ListItem
               key={`${product.productId}`}
               text={product.productName}
-              url={`/product/${selectedProductId}/chat/${product.productId}`}
+              url={`/dashboard/product/${selectedProductId}/chat/${product.productId}`}
             />
           ))}
       </div>

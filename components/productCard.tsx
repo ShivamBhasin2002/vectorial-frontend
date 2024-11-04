@@ -20,7 +20,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <li
           className="w-6 h-6 cursor-pointer rounded-lg flex justify-center items-center text-yellow hover:text-primary-100 hover:bg-purps"
           onClick={() => {
-            router.push(`/product/${productId}`);
+            router.push(`/dashboard/product/${productId}`);
           }}
         >
           <IoOpenSharp />

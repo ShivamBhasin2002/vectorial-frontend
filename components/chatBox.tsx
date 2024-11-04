@@ -87,7 +87,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
           onClick={() => {
             setSideBarState("Description");
-            router.push(`/product/${selectedProductId}`);
+            router.push(`/dashboard/product/${selectedProductId}`);
           }}
         >
           <IoOpenSharp />
@@ -96,7 +96,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
           onClick={() => {
             setSideBarState("Chats");
-            router.push(`/product/${selectedProductId}`);
+            router.push(`/dashboard/product/${selectedProductId}`);
           }}
         >
           <IoSend />
@@ -105,7 +105,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
           onClick={() => {
             setSideBarState("Files");
-            router.push(`/product/${selectedProductId}`);
+            router.push(`/dashboard/product/${selectedProductId}`);
           }}
         >
           <TiAttachmentOutline />
@@ -114,7 +114,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
           onClick={() => {
             setSideBarState("Transcripts");
-            router.push(`/product/${selectedProductId}`);
+            router.push(`/dashboard/product/${selectedProductId}`);
           }}
         >
           <FaFileUpload />

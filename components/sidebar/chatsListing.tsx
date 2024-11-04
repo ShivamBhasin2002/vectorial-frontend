@@ -19,7 +19,7 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
       onClick={() => {
         if (!chatId) return;
         setSelectedChatId(chatId);
-        router.push(`/product/${productId}/chat/${chatId}`);
+        router.push(`/dashboard/product/${productId}/chat/${chatId}`);
       }}
     >
       {chatTitle}
@@ -42,7 +42,7 @@ export const ChatsListing = () => {
       <button
         className="focus:outline-none hover:bg-yellow flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-yellow h-10 mt-auto overflow-hidden"
         onClick={() => {
-          router.push(`/product/${productId}`);
+          router.push(`/dashboard/product/${productId}`);
         }}
       >
         <FaPlus />

@@ -46,7 +46,7 @@ const NewProduct = () => {
               productName,
               productDescription,
             }).then(({ newProductId }) => {
-              window.open(`/product/${newProductId}`);
+              window.open(`/dashboard/product/${newProductId}`);
             });
           }}
         >
