@@ -8,7 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        jakarta: ["Plus Jakarta Sans"],
+      },
       colors: {
+        cream: "#F5F0E5",
         offwhite: "#f9f9f8",
         purps: "#665cc8",
         grey: "#e2e3e1",

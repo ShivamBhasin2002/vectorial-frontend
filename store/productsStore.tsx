@@ -19,7 +19,7 @@ interface ProductState {
   createProduct: (product: {
     productName: string;
     productDescription: string;
-  }) => Promise<void>;
+  }) => Promise<{ newProductId: string }>;
   deleteFile: (args: {
     fileUrl: string;
     productId: string;
@@ -93,7 +93,7 @@ export const useProductStore = create<ProductState>((set) => ({
     }
   },
   createProduct: async ({ productDescription, productName }) => {
-    const newPorductId = await upsertProduct({
+    const newProductId = await upsertProduct({
       product: {
         productId: "",
         productName,
@@ -105,7 +105,7 @@ export const useProductStore = create<ProductState>((set) => ({
         updatedAT: Date.now().toString(),
       },
     });
-    window.open(`/product/${newPorductId}`,"_self");
+    return { newProductId };
   },
   uploadFile: async ({ files, productId, fileType }) => {
     const fileUrls = await uploadFile({ newFiles: files, productId });
