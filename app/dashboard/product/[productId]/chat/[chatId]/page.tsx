@@ -25,7 +25,7 @@ export const ChatPage = () => {
   return (
     <main
       className={clsx(
-        "w-full mx-auto min-h-screen max-h-screen p-6 flex gap-6 transition-all duration-300 ease-in-out pl-[17.5rem]"
+        "w-full mx-auto min-h-screen max-h-screen p-6 flex gap-6 transition-all duration-300 ease-in-out pr-[410px]"
       )}
     >
       <div className="flex flex-col gap-6 h-full flex-1 place-self-end">

@@ -9,14 +9,15 @@ interface TabsProps {
 
 const Tabs = ({ tabs, activeTab, onClick }: TabsProps) => {
   return (
-    <ul className="hidden text-sm font-medium text-center rounded-lg shadow sm:flex divide-gray-700 text-black  overflow-hidden">
+    <ul className="flex gap-8 px-4">
       {tabs.map((tab, idx) => (
         <li
           key={`${tab}-${idx}`}
           className={clsx(
-            "inline-block w-full p-4 focus:ring-4e focus:outline-none bg-grey hover:bg-yellow focus-within:z-10 cursor-pointer font-semibold",
-            activeTab === tab &&
-              "active text-black bg-yellow font-extrabold hover:bg-darkGrey"
+            "h-[50px] text-sm flex items-center font-bold cursor-pointer hover:text-black",
+            activeTab === tab
+              ? "text-black border-b-[3px] border-green"
+              : "text-brown"
           )}
           aria-current={activeTab === tab && "page"}
           onClick={() => onClick(tab)}

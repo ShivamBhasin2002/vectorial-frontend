@@ -1,3 +1,7 @@
+import { BinIcon } from "@assets/icons/binIcon";
+import { ChatIcon } from "@assets/icons/chaticon";
+import { EditIcon } from "@assets/icons/editIcon";
+import { RightChevronIcon } from "@assets/icons/rightChevron";
 import { Chat } from "@constants/types/chat";
 import { useChatStore } from "@store/chatStore";
 import clsx from "clsx";
@@ -9,20 +13,36 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
   const { setSelectedChatId, selectedChatId } = useChatStore();
   const { productId } = useParams();
   const router = useRouter();
+  const openChatHandler = () => {
+    if (!chatId) return;
+    setSelectedChatId(chatId);
+    router.push(`/dashboard/product/${productId}/chat/${chatId}`);
+  };
+  const deleteChatHandler = () => {};
+  const editChatNameHandler = () => {};
   return (
     <div
       className={clsx(
-        "rounded-lg cursor-pointer w-full p-2 bg-grey hover:bg-yellow font-bold overflow-hidden whitespace-nowrap text-ellipsis",
-        chatId === selectedChatId &&
-          "bg-yellow hover:bg-yellow/60 text-black"
+        "w-full px-4 py-3 flex group items-center",
+        chatId === selectedChatId && "bg-brown/20 rounded-xl  text-black"
       )}
-      onClick={() => {
-        if (!chatId) return;
-        setSelectedChatId(chatId);
-        router.push(`/dashboard/product/${productId}/chat/${chatId}`);
-      }}
     >
-      {chatTitle}
+      <ChatIcon className="mr-4" />
+      <div className="w-[180px]">{chatTitle}</div>
+      <div className="flex gap-2 ml-auto">
+        <EditIcon
+          className="cursor-pointer hidden group-hover:block"
+          onClick={editChatNameHandler}
+        />
+        <BinIcon
+          className="cursor-pointer hidden group-hover:block"
+          onClick={deleteChatHandler}
+        />
+        <RightChevronIcon
+          className="cursor-pointer"
+          onClick={openChatHandler}
+        />
+      </div>
     </div>
   );
 };
@@ -40,13 +60,13 @@ export const ChatsListing = () => {
         chats?.length !== 0 &&
         chats.map((chat) => <ChatComponent {...chat} key={chat.chatId} />)}
       <button
-        className="focus:outline-none hover:bg-yellow flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-yellow h-10 mt-auto overflow-hidden"
+        className="focus:outline-none flex gap-2 justify-center items-center p-2 w-full text-white bg-green h-12 mt-auto rounded-3xl"
         onClick={() => {
           router.push(`/dashboard/product/${productId}`);
         }}
       >
         <FaPlus />
-        <div className="whitespace-nowrap text-black font-bold">New Chat</div>
+        <div className="whitespace-nowrap text-white font-bold">New Chat</div>
       </button>
     </div>
   );

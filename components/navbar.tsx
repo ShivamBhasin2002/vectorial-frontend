@@ -1,9 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { FaEye, FaPlus } from "react-icons/fa";
-import clsx from "clsx";
 import { useProductStore } from "@store/productsStore";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePageStore } from "@store/pageStore";
 import NewProduct from "./newProduct";
@@ -27,7 +25,7 @@ const Navbar = () => {
         <div
           className="flex gap-2 items-center cursor-pointer w-full p-5 border-b border-borderGray"
           onClick={() => {
-            router.push("/");
+            router.push("/dashboard");
           }}
         >
           <svg

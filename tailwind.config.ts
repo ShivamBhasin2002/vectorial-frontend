@@ -15,6 +15,7 @@ const config: Config = {
         cream: "#F5F0E5",
         green: "#009963",
         borderGray: "#D8D9D4",
+        brown: "#A1824A",
         offwhite: "#f9f9f8",
         purps: "#665cc8",
         grey: "#e2e3e1",

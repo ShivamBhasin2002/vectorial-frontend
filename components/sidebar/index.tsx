@@ -17,7 +17,7 @@ export const SideBar = () => {
     setSideBarState(tab as sideBarStates);
   };
   return (
-    <div className="w-[26%] min-h-full bg-darkGrey rounded-2xl p-4 flex flex-col gap-4 overflow-hidden border-grey border-2 shadow-md">
+    <div className="w-[386px] min-h-full fixed right-0 top-0 bottom-0 bg-cream p-4 flex flex-col gap-4 overflow-hidden shadow-md">
       <Tabs tabs={sideBarTabs} activeTab={sideBarState} onClick={onClick} />
       {sideBarState === "Chats" && <ChatsListing />}
       {sideBarState === "Files" && <FilesListing fileType="Files" />}
