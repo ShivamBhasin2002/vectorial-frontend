@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { IoOpenSharp } from "react-icons/io5";
-import { FaFileUpload } from "react-icons/fa";
+import { FaFileUpload, FaSpinner } from "react-icons/fa";
 import { TiAttachmentOutline } from "react-icons/ti";
 import { IoSend } from "react-icons/io5";
 import { useChatStore } from "@store/chatStore";
@@ -23,6 +23,7 @@ const suggestions = [
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const router = useRouter();
   const [showSuggestions, toggleSuggestions] = useState(true);
+  const [showLoading, toggleLoading] = useState(false);
   const { selectedChatId, upsertChat, byChatId, handleNewMessage } =
     useChatStore();
   const { selectedProductId } = useProductStore();
@@ -37,37 +38,43 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
     }
   }, [chatId]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const message = inputRef.current?.value;
     if (!message) return;
     const chatHistory = selectedChatId
       ? byChatId[selectedChatId].chatMessages
       : [];
+    toggleLoading(true);
     handleNewMessage({ message, chatId: selectedChatId, chatHistory });
-    upsertChat({
+    await upsertChat({
       message,
       chatId: selectedChatId,
       chatHistory,
       productId: selectedProductId,
     });
+    toggleLoading(false);
     if (inputRef.current) inputRef.current.value = "";
   };
 
   const renderSuggestions = () => (
     <div
       className={clsx(
-        "bg-white border-grey border-2 p-4 rounded-2xl w-[calc(100%-32px)] ml-[16px] flex flex-col gap-4 transition-transform ease-in-out relative z-0",
+        "bg-white border-grey border-2 p-4 rounded-2xl w-[calc(100%-32px)] ml-[16px] flex flex-col gap-4  ease-in-out relative z-0",
         suggestionsPosition === "above" ? "mb-[-50px]" : "mt-[-22px]",
-        !showSuggestions &&
-          (suggestionsPosition === "above"
-            ? "translate-y-[148px] mt-[-120px]"
-            : "translate-y-[-106px]")
+        !showSuggestions && suggestionsPosition === "above" && "hidden"
       )}
     >
-      <p className="font-semibold text-surface-0">
+      <p
+        className={clsx(
+          "font-semibold text-black",
+          !showSuggestions && "hidden"
+        )}
+      >
         Suggested queries to start with:-
       </p>
-      <ul className="flex gap-2 flex-wrap">
+      <ul
+        className={clsx("flex gap-2 flex-wrap", !showSuggestions && "hidden")}
+      >
         {suggestions.map((suggestion) => (
           <li
             key={suggestion}
@@ -82,9 +89,14 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           </li>
         ))}
       </ul>
-      <ul className="flex flex-row-reverse gap-2 ">
+      <ul
+        className={clsx(
+          "flex flex-row-reverse gap-2 ",
+          !showSuggestions && "mt-4"
+        )}
+      >
         <li
-          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
           onClick={() => {
             setSideBarState("Description");
             router.push(`/dashboard/product/${selectedProductId}`);
@@ -93,16 +105,20 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           <IoOpenSharp />
         </li>
         <li
-          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
           onClick={() => {
             setSideBarState("Chats");
             router.push(`/dashboard/product/${selectedProductId}`);
           }}
         >
-          <IoSend />
+          {showLoading ? (
+            <FaSpinner className="text-xl animate-spin text-white" />
+          ) : (
+            <IoSend />
+          )}
         </li>
         <li
-          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
           onClick={() => {
             setSideBarState("Files");
             router.push(`/dashboard/product/${selectedProductId}`);
@@ -111,7 +127,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           <TiAttachmentOutline />
         </li>
         <li
-          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100"
+          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
           onClick={() => {
             setSideBarState("Transcripts");
             router.push(`/dashboard/product/${selectedProductId}`);
@@ -128,7 +144,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       {suggestionsPosition === "above" && renderSuggestions()}
       <textarea
         ref={inputRef}
-        className="w-full rounded-2xl p-4 min-w-[672px] min-h-[200px] bg-cream border-4 border-brown relative z-10 outline-none text-black"
+        className="w-full rounded-2xl p-4 min-w-[672px] min-h-[100px] bg-cream border border-brown relative z-10 outline-none text-black"
         placeholder="Message to Vectorial AI Agent regarding Product"
         onKeyDown={(e) => {
           if (e.key !== "Enter") return;
@@ -142,12 +158,16 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       />
       {suggestionsPosition === "above" && (
         <li
-          className="w-8 h-8 bg-surface-0 cursor-pointer rounded-lg flex justify-center items-center text-white hover:text-primary-100 absolute right-4 bottom-4 z-50 "
+          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90 absolute right-4 bottom-4 z-50 "
           onClick={() => {
             handleSubmit();
           }}
         >
-          <IoSend />
+          {showLoading ? (
+            <FaSpinner className="text-xl animate-spin text-white" />
+          ) : (
+            <IoSend />
+          )}
         </li>
       )}
       {suggestionsPosition === "below" && renderSuggestions()}

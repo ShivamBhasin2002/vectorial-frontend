@@ -1,4 +1,5 @@
 import { useChatStore } from "@store/chatStore";
+import clsx from "clsx";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 import { FaRobot, FaSpinner, FaUser } from "react-icons/fa";
@@ -28,38 +29,52 @@ export const ChatInterface = () => {
   return (
     <div
       ref={chatContainerRef}
-      className="overflow-y-auto max-h-[calc(100vh-271px)] rounded-xl  scroll-smooth text-black"
+      className="overflow-y-auto max-h-[calc(100vh-131px)] rounded-xl  scroll-smooth text-black pr-2 py-6 relative"
     >
+      <div className="w-full h-6 bg-gradient-to-b from-white to-transparent sticky -top-6" />
       {chatHistory.map((msg, index) => (
         <div
           key={index}
-          className={`flex bg-grey rounded-xl ${
-            msg.senderType === "User" ? "justify-end w-fit ml-auto" : "justify-start"
-          } p-2 my-2`}
+          className={clsx(
+            "flex rounded-xl p-2 my-2",
+            msg.senderType === "User"
+              ? "justify-end w-fit ml-auto"
+              : "justify-start"
+          )}
         >
-          <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-purps shadow-md mr-2 text-white">
-            {msg.senderType === "User" && <FaUser className="text-xl" />}
-            {msg.senderType === "AI" && <FaRobot className="text-xl" />}
-          </div>
-          <div
-            className={`flex items-start  rounded-xl max-w-4/5 min-w-[2.5%] shadow-sm p-3`}
-          >
-            <div className="flex-1 text-left">
-              <ReactMarkdown>{msg.message}</ReactMarkdown>
+          {msg.senderType === "AI" && (
+            <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown mr-3 mt-auto text-white">
+              <FaRobot className="text-xl" />
             </div>
+          )}
+          <div
+            className={clsx(
+              `rounded-xl max-w-4/5 min-w-[2.5%] p-4 bg-cream`,
+              msg.senderType === "User"
+                ? "justify-end ml-20 bg-green text-white"
+                : "justify-start mr-20"
+            )}
+          >
+            <ReactMarkdown>{msg.message}</ReactMarkdown>
           </div>
+          {msg.senderType === "User" && (
+            <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown ml-3 mt-auto text-white">
+              <FaUser className="text-xl" />
+            </div>
+          )}
         </div>
       ))}
       {showLoading && (
-        <div className="flex justify-start p-2 my-2">
-          <div className="flex items-center bg-grey rounded-xl max-w-4/5 shadow-sm p-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md mr-2">
+        <div className="flex justify-start">
+          <div className="flex items-center rounded-xl max-w-4/5 p-3">
+            <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown mr-3 mt-auto text-white">
               <FaRobot className="text-xl" />
             </div>
             <FaSpinner className="text-xl animate-spin" />
           </div>
         </div>
       )}
+      <div className="w-full h-6 -mt-6 bg-gradient-to-t from-white to-white/0 sticky -bottom-6" />
     </div>
   );
 };

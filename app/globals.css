@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
 :root {
   --primary-0: #7c0edf;
@@ -10,7 +10,7 @@
   --primary-60: #b06dec;
   --primary-80: #bf85f0;
   --primary-100: #cd9df3;
-  --surface-0: #121212;
+  --black: #121212;
   --surface-20: #282828;
   --surface-40: #3f3f3f;
   --surface-60: #575757;

@@ -57,7 +57,7 @@ interface ChatState {
     chatId: string | null;
     productId?: string | null;
     chatHistory: Chat["chatMessages"];
-  }) => void;
+  }) => Promise<void>;
   handleNewMessage: (args: {
     message: string;
     chatId: string | null;

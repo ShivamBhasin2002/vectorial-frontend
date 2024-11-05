@@ -10,7 +10,7 @@ const ListItem = ({ text, url }: { text: string; url: string }) => {
   const router = useRouter();
   return (
     <div
-      className="bg-grey hover:bg-yellow text-black hover:font-semibold p-4 line-clamp-3 rounded-lg min-w-[200px] cursor-pointer whitespace-nowrap"
+      className="bg-cream text-black p-4 line-clamp-3 rounded-lg min-w-[200px] cursor-pointer whitespace-nowrap"
       onClick={() => {
         router.push(url);
       }}
@@ -36,7 +36,7 @@ const HorizontalList = ({ type }: { type: "chats" | "products" }) => {
   return (
     <div className="mt-8">
       <div className="flex justify-between">
-        <div className="text-xl">{type === "chats" ? "Chats" : "Products"}</div>
+        <div className="text-xl">{type === "chats" ? "Chats" : "Projects"}</div>
         <div
           className="text-sm flex gap-2 items-center cursor-pointer"
           onClick={() => {
@@ -52,7 +52,7 @@ const HorizontalList = ({ type }: { type: "chats" | "products" }) => {
           View all <FaArrowRight />
         </div>
       </div>
-      <div className="flex gap-2 overflow-hidden mt-4 after:from-transparent after:to-surface-0 after:contents">
+      <div className="flex gap-2 overflow-hidden mt-4 after:from-transparent after:to-black after:contents">
         {type === "chats" &&
           selectedChatId &&
           Object.values(byProductId[selectedChatId])

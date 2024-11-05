@@ -16,7 +16,7 @@ export const Heading = ({}) => {
   return (
     <div className="text-black mb-8 font-bold">
       Continue chatting on product:{" "}
-      <strong className="text-purps font-extrabold">
+      <strong className="text-brown font-extrabold">
         {selectedProductId && products[selectedProductId]?.productName}
       </strong>{" "}
     </div>

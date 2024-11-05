@@ -32,7 +32,7 @@ const config: Config = {
           100: "var(--primary-100)",
         },
         surface: {
-          0: "var(--surface-0)",
+          0: "var(--black)",
           20: "var(--surface-20)",
           40: "var(--surface-40)",
           60: "var(--surface-60)",
