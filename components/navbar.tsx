@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { FaEye, FaPlus } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 import { useProductStore } from "@store/productsStore";
 import { useRouter } from "next/navigation";
 import { usePageStore } from "@store/pageStore";
@@ -9,7 +9,7 @@ import { VscExtensions } from "react-icons/vsc";
 
 const Navbar = () => {
   const router = useRouter();
-  const { products, fetchProducts, selectedProductId, setSelectedProduct } =
+  const { products, fetchProducts } =
     useProductStore();
   const { toggleNewProductPanelOpen } = usePageStore();
   const name = "Shivam Bhasin";

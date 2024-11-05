@@ -23,7 +23,7 @@ const suggestions = [
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const router = useRouter();
   const [showSuggestions, toggleSuggestions] = useState(true);
-  const { selectedChatId, upsertChat, byChatId, handleNewMessage, } =
+  const { selectedChatId, upsertChat, byChatId, handleNewMessage } =
     useChatStore();
   const { selectedProductId } = useProductStore();
   const { setSideBarState } = usePageStore();
@@ -65,13 +65,13 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       )}
     >
       <p className="font-semibold text-surface-0">
-        Suggested queries to stat with:-
+        Suggested queries to start with:-
       </p>
-      <ul className="flex gap-2">
+      <ul className="flex gap-2 flex-wrap">
         {suggestions.map((suggestion) => (
           <li
             key={suggestion}
-            className="cursor-pointer flex-1 bg-yellow p-2 text-wrap rounded-lg text-black font-bold hover:bg-yellow/80 max-h-16 overflow-hidden line-clamp-2"
+            className="cursor-pointer bg-cream p-2 px-4 whitespace-nowrap rounded-2xl text-black"
             onClick={() => {
               const input = inputRef.current;
               if (!input) return;
@@ -128,7 +128,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       {suggestionsPosition === "above" && renderSuggestions()}
       <textarea
         ref={inputRef}
-        className="w-full rounded-2xl p-4 min-w-[672px] min-h-[200px] bg-offwhite border-4 border-purps relative z-10 outline-none text-black"
+        className="w-full rounded-2xl p-4 min-w-[672px] min-h-[200px] bg-cream border-4 border-brown relative z-10 outline-none text-black"
         placeholder="Message to Vectorial AI Agent regarding Product"
         onKeyDown={(e) => {
           if (e.key !== "Enter") return;
