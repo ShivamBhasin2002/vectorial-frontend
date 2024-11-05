@@ -1,10 +1,11 @@
+import { BinIcon } from "@assets/icons/binIcon";
+import { FileIcon } from "@assets/icons/fileIcon";
+import { UploadIcon } from "@assets/icons/uploadIcon";
 import { sideBarStates } from "@store/pageStore";
 import { useProductStore } from "@store/productsStore";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
 import React from "react";
-import { FaPlus } from "react-icons/fa";
-import { IoTrashBin } from "react-icons/io5";
 
 const FileComponet = ({
   fileUrl,
@@ -14,29 +15,26 @@ const FileComponet = ({
   fileType: sideBarStates;
 }) => {
   const { deleteFile, selectedProductId } = useProductStore();
+  const deleteFileHandler = () => {
+    deleteFile({
+      fileType,
+      productId: selectedProductId as string,
+      fileUrl,
+    });
+  };
   const fileName = fileUrl.slice(fileUrl.lastIndexOf("/") + 1);
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4 px-4 py-2 items-center">
+      <FileIcon className="w-6 h-6" />
       <a
         href={fileUrl}
         className={clsx(
-          "rounded-lg cursor-pointer w-full p-2 bg-grey hover:bg-purps/20 font-bold overflow-hidden whitespace-nowrap text-ellipsis flex-1"
+          "rounded-lg cursor-pointer w-full p-2 overflow-hidden whitespace-nowrap text-ellipsis"
         )}
       >
         {fileName}
       </a>
-      <div
-        className="rounded-lg cursor-pointer h-[40px] w-[40px] bg-grey hover:bg-red-200 text-red-600 flex justify-center items-center"
-        onClick={() => {
-          deleteFile({
-            fileType,
-            productId: selectedProductId as string,
-            fileUrl,
-          });
-        }}
-      >
-        <IoTrashBin />
-      </div>
+      <BinIcon className="w-7 h-7 flex-shrink-0" onClick={deleteFileHandler} />
     </div>
   );
 };
@@ -67,10 +65,10 @@ export const FilesListing = ({ fileType }: { fileType: sideBarStates }) => {
         ))}
       <label
         htmlFor="fileInput"
-        className="focus:outline-none hover:bg-yellow flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-yellow h-10 mt-auto overflow-hidden"
+        className="focus:outline-none flex gap-2 justify-center items-center p-2 w-full text-white bg-green h-12 mt-auto rounded-3xl cursor-pointer"
       >
-        <FaPlus />
-        <div className="whitespace-nowrap text-black font-bold">
+        <UploadIcon />
+        <div className="whitespace-nowrap text-white font-bold">
           New {fileType === "Files" ? "File" : "Transcript"}
         </div>
       </label>
