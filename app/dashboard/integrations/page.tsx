@@ -13,15 +13,15 @@ const ConnectionTabs = ({
   description: string;
 }) => {
   return (
-    <div className=" flex flex-col gap-4 bg-offwhite rounded-xl p-4 shadow-xl flex-1 max-w-[calc((100%-2rem)/3)]">
+    <div className=" flex flex-col gap-4 bg-cream border border-brown rounded-xl p-4 shadow-xl flex-1 max-w-[calc((100%-2rem)/3)]">
       <div className="flex gap-4 font-bold text-xl items-center">
         {icon}
         <div>{title}</div>
       </div>
       <div className="text-sm">{description}</div>
-      <button className="focus:outline-none hover:bg-yellow/80 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-yellow h-10 mt-auto overflow-hidden hover:scale-[0.98] transition-all">
+      <button className="focus:outline-none hover:bg-green/80 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-green text-white h-10 mt-auto overflow-hidden hover:scale-[0.98] transition-all">
         <FaPlus />
-        <div className="whitespace-nowrap text-black font-bold">
+        <div className="whitespace-nowrap font-bold">
           Integrate with {title}
         </div>
       </button>
