@@ -40,7 +40,8 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
 
   const handleSubmit = async () => {
     const message = inputRef.current?.value;
-    if (!message) return;
+    if (!message || showLoading) return;
+    if (inputRef.current) inputRef.current.value = "";
     const chatHistory = selectedChatId
       ? byChatId[selectedChatId].chatMessages
       : [];
@@ -53,7 +54,6 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       productId: selectedProductId,
     });
     toggleLoading(false);
-    if (inputRef.current) inputRef.current.value = "";
   };
 
   const renderSuggestions = () => (
@@ -121,6 +121,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
           onClick={() => {
             setSideBarState("Files");
+            handleSubmit();
             router.push(`/dashboard/product/${selectedProductId}`);
           }}
         >
