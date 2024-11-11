@@ -1,12 +1,109 @@
 "use client";
+import { AUTH_API_ENDPOINT } from "@constants/restConstants";
+import axios from "axios";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { FormEvent, useRef } from "react";
+import nookies from "nookies";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
+  const router = useRouter();
+  const toggleErrorMessage = (errMsg: string) => {
+    toast.error(errMsg, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+  };
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const handleLogin = async () => {
+    const formElement = formRef.current;
+    if (!formElement) return;
+    const email = (formElement.elements.namedItem("email") as HTMLInputElement)
+      .value;
+    const password = (
+      formElement.elements.namedItem("password") as HTMLInputElement
+    ).value;
+    await axios
+      .post(`${AUTH_API_ENDPOINT}/api/auth/login`, {
+        email,
+        password,
+      })
+      .then((res) => {
+        if (res.status !== 200) {
+          if (res.data?.errorMessage) toggleErrorMessage(res.data.errorMessage);
+          return;
+        }
+        nookies.set(null, "authToken", res.data?.token, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+        router.push("/dashboard");
+      })
+      .catch(({ response }) => {
+        toggleErrorMessage(response.data.errorMessage);
+      });
+  };
+  const handleRegister = async () => {
+    const formElement = formRef.current;
+    if (!formElement) return;
+    const email = (formElement.elements.namedItem("email") as HTMLInputElement)
+      .value;
+    const name = (
+      formElement.elements.namedItem("username") as HTMLInputElement
+    ).value;
+    const password = (
+      formElement.elements.namedItem("password") as HTMLInputElement
+    ).value;
+    const confirmPassword = (
+      formElement.elements.namedItem("confirm-password") as HTMLInputElement
+    ).value;
+    if (confirmPassword !== password) {
+      toggleErrorMessage(
+        "Passwords do not match! Please check and enter the passwords"
+      );
+      return;
+    }
+    await axios
+      .post(`${AUTH_API_ENDPOINT}/api/auth/register`, {
+        name,
+        email,
+        password,
+        role: "USER",
+      })
+      .then((res) => {
+        if (res.status !== 200) {
+          if (res.data?.errorMessage) toggleErrorMessage(res.data.errorMessage);
+          return;
+        }
+        nookies.set(null, "authToken", res.data?.token, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+        router.push("/dashboard");
+      })
+      .catch(({ response }) => {
+        toggleErrorMessage(response.data.errorMessage);
+      });
+  };
   const { slug } = useParams();
   const showLogin = isLogin ?? slug === "login";
+  const onFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (showLogin) handleLogin();
+    else handleRegister();
+  };
+
   return (
     <div className="h-full max-w-[calc(100%-10px)] bg-white rounded-[48px] -rotate-[1.55deg] origin-top-left shadow-[0_4px_24.7px_7px_rgba(0,0,0,0.25)] p-[24px] flex flex-col gap-10 justify-between">
+      <ToastContainer />
       <section>
         <div className="text-[48px] font-semibold text-center">
           {showLogin ? "Sign in to" : "Sign up for"} your account
@@ -16,35 +113,56 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
           details.
         </div>
       </section>
-      <form className="flex flex-col gap-5">
-        <div className="flex flex-col gap-4">
-          <label htmlFor="username" className="font-semibold text-lg">
-            Username
+      <form
+        className="flex flex-col gap-5"
+        onSubmit={onFormSubmit}
+        ref={formRef}
+      >
+        <div className="flex flex-col gap-2">
+          <label htmlFor="email" className="font-semibold text-lg">
+            Email
           </label>
           <input
-            name="username"
-            type="text"
-            placeholder="Username or email"
+            required
+            name="email"
+            type="email"
+            placeholder="Email"
             className="rounded-lg p-[14px] border border-gray-400 height-[48px] text-[14px] outline-none"
           />
         </div>
-        <div className="flex flex-col gap-4">
+        {!showLogin && (
+          <div className="flex flex-col gap-2">
+            <label htmlFor="username" className="font-semibold text-lg">
+              Username
+            </label>
+            <input
+              required
+              name="username"
+              type="text"
+              placeholder="Username"
+              className="rounded-lg p-[14px] border border-gray-400 height-[48px] text-[14px] outline-none"
+            />
+          </div>
+        )}
+        <div className="flex flex-col gap-2">
           <label htmlFor="password" className="font-semibold text-lg">
             Password
           </label>
           <input
-            name="passwor"
+            required
+            name="password"
             type="password"
             placeholder="Enter your password"
             className="rounded-lg p-[14px] border border-gray-400 height-[48px] text-[14px] outline-none"
           />
         </div>
         {!showLogin && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             <label htmlFor="confirm-password" className="font-semibold text-lg">
               Confirm Password
             </label>
             <input
+              required
               name="confirm-password"
               type="password"
               placeholder="Confrim your password"
@@ -52,22 +170,23 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
             />
           </div>
         )}
-        {showLogin && (
-          <div className="flex justify-between">
-            <div className="flex gap-2 items-center">
-              <input
-                type="checkbox"
-                name="remember-me"
-                id="remember-me"
-                className="w-4 h-4"
-              />
-              Remember me
-            </div>
+        <div className="flex justify-between">
+          <div className="flex gap-2 items-center">
+            <input
+              type="checkbox"
+              name="remember-me"
+              id="remember-me"
+              className="w-4 h-4"
+              checked
+            />
+            Remember me
+          </div>
+          {showLogin && (
             <div className="text-gray-500 underline cursor-pointer">
               Forgot passoword?
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <button className="w-full h-12 text-center text-white bg-black rounded-lg">
           Sign {showLogin ? "in" : "up"}
         </button>
