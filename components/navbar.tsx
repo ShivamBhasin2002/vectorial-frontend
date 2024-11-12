@@ -7,16 +7,17 @@ import { usePageStore } from "@store/pageStore";
 import NewProduct from "./newProduct";
 import { VscExtensions } from "react-icons/vsc";
 import nookies from "nookies";
+import { useUserStore } from "@store/userStore";
 
 const Navbar = () => {
   const router = useRouter();
   const { products, fetchProducts } = useProductStore();
   const { toggleNewProductPanelOpen } = usePageStore();
-  const name = "Shivam Bhasin";
-  const email = "bhasinshivam2002@gmail.com";
+  const { email, username, authUser } = useUserStore();
 
   useEffect(() => {
     fetchProducts();
+    authUser();
   }, []);
 
   return (
@@ -143,10 +144,10 @@ const Navbar = () => {
         </div>
         <div className=" w-full h-[76px] border-t border-borderGray flex gap-3 p-5">
           <div className="w-9 h-9 rounded-full bg-green text-white text-sm flex justify-center items-center">
-            {name[0].toLocaleUpperCase()}
+            {username && username[0].toLocaleUpperCase()}
           </div>
           <div>
-            <div className="text-sm">{name}</div>
+            <div className="text-sm">{username}</div>
             <div className="text-xs font-light">{email}</div>
           </div>
         </div>
