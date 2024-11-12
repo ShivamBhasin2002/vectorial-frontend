@@ -2,8 +2,6 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { IoOpenSharp } from "react-icons/io5";
-import { FaFileUpload, FaSpinner } from "react-icons/fa";
-import { TiAttachmentOutline } from "react-icons/ti";
 import { IoSend } from "react-icons/io5";
 import { useChatStore } from "@store/chatStore";
 import { useParams, useRouter } from "next/navigation";
@@ -15,9 +13,15 @@ interface ChatboxProps {
 }
 
 const suggestions = [
-  "suggestion 1 suggestion 1 suggestion 1",
-  "suggestion 2 suggestion 2 suggestion 2",
-  "suggestion 3 suggestion 3 suggestion 3",
+  "Analyze interviews",
+  "Write PRD",
+  "Validate Hypothesis",
+  "Plan Sprint",
+  "Create roadmap",
+  "Usability analysis",
+  "Design User journey",
+  "Analyze user funnel",
+  "Prepare Research Questions",
 ];
 
 const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
@@ -116,25 +120,6 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           ) : (
             <IoSend />
           )}
-        </li>
-        <li
-          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
-          onClick={() => {
-            setSideBarState("Files");
-            handleSubmit();
-            router.push(`/dashboard/product/${selectedProductId}`);
-          }}
-        >
-          <TiAttachmentOutline />
-        </li>
-        <li
-          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
-          onClick={() => {
-            setSideBarState("Transcripts");
-            router.push(`/dashboard/product/${selectedProductId}`);
-          }}
-        >
-          <FaFileUpload />
         </li>
       </ul>
     </div>

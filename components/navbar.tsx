@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect } from "react";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaSignOutAlt } from "react-icons/fa";
 import { useProductStore } from "@store/productsStore";
 import { useRouter } from "next/navigation";
 import { usePageStore } from "@store/pageStore";
 import NewProduct from "./newProduct";
 import { VscExtensions } from "react-icons/vsc";
+import nookies from "nookies";
 
 const Navbar = () => {
   const router = useRouter();
-  const { products, fetchProducts } =
-    useProductStore();
+  const { products, fetchProducts } = useProductStore();
   const { toggleNewProductPanelOpen } = usePageStore();
   const name = "Shivam Bhasin";
   const email = "bhasinshivam2002@gmail.com";
@@ -129,6 +129,16 @@ const Navbar = () => {
             <div className="flex justify-center items-center w-5 h-5 bg-green rounded-full text-white ml-auto text-xs">
               {Object.keys(products ?? {}).length}
             </div>
+          </button>
+          <button
+            className="focus:outline-none flex gap-3 items-center py-3 px-4"
+            onClick={() => {
+              nookies.destroy(null, "authToken", { path: "/" });
+              router.push("/auth/login");
+            }}
+          >
+            <FaSignOutAlt />
+            <div className="text-sm">Sign Out</div>
           </button>
         </div>
         <div className=" w-full h-[76px] border-t border-borderGray flex gap-3 p-5">

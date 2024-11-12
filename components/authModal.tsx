@@ -102,7 +102,7 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
   };
 
   return (
-    <div className="h-full max-w-[calc(100%-10px)] bg-white rounded-[48px] -rotate-[1.55deg] origin-top-left shadow-[0_4px_24.7px_7px_rgba(0,0,0,0.25)] p-[24px] flex flex-col gap-10 justify-between">
+    <div className="h-full max-w-[calc(100%-10px)] bg-white rounded-[48px] -rotate-[1.55deg] origin-top-left shadow-[0_4px_24.7px_7px_rgba(0,0,0,0.25)] p-[24px] flex flex-col gap-10 justify-between overflow-y-scroll">
       <ToastContainer />
       <section>
         <div className="text-[48px] font-semibold text-center">
@@ -133,13 +133,13 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
         {!showLogin && (
           <div className="flex flex-col gap-2">
             <label htmlFor="username" className="font-semibold text-lg">
-              Username
+              Full Name
             </label>
             <input
               required
               name="username"
               type="text"
-              placeholder="Username"
+              placeholder="Full Name"
               className="rounded-lg p-[14px] border border-gray-400 height-[48px] text-[14px] outline-none"
             />
           </div>
@@ -170,27 +170,27 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
             />
           </div>
         )}
-        <div className="flex justify-between">
-          <div className="flex gap-2 items-center">
-            <input
-              type="checkbox"
-              name="remember-me"
-              id="remember-me"
-              className="w-4 h-4"
-              checked
-            />
-            Remember me
-          </div>
-          {showLogin && (
+        {showLogin && (
+          <div className="flex justify-between">
+            <div className="flex gap-2 items-center">
+              <input
+                type="checkbox"
+                name="remember-me"
+                id="remember-me"
+                className="w-4 h-4"
+                checked
+              />
+              Remember me
+            </div>
             <div className="text-gray-500 underline cursor-pointer">
               Forgot passoword?
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <button className="w-full h-12 text-center text-white bg-black rounded-lg">
           Sign {showLogin ? "in" : "up"}
         </button>
-        <div className="flex gap-2 items-center">
+        {/* <div className="flex gap-2 items-center">
           <hr className="flex-1" />
           <span className="text-gray-500">
             or sign {showLogin ? "in" : "up"} with
@@ -219,11 +219,17 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
             </svg>
             <div className="whitespace-nowrap">Sign up with Google</div>
           </button>
-        </div>
+        </div> */}
       </form>
       <div className="flex gap-2 justify-center">
         {showLogin ? "Don't have an account?" : "Already have an account?"}
-        <strong className="underline cursor-pointer hover:text-black/60">
+        <strong
+          className="underline cursor-pointer hover:text-black/60"
+          onClick={() => {
+            if (showLogin) router.replace("/auth/signUp");
+            if (!showLogin) router.replace("/auth/login");
+          }}
+        >
           {showLogin ? "Sign up" : "Sign in"}
         </strong>
       </div>

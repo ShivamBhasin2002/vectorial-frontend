@@ -1,4 +1,4 @@
-import { BinIcon } from "@assets/icons/binIcon";
+// import { BinIcon } from "@assets/icons/binIcon";
 import { ChatIcon } from "@assets/icons/chaticon";
 import { EditIcon } from "@assets/icons/editIcon";
 import { RightChevronIcon } from "@assets/icons/rightChevron";
@@ -18,7 +18,7 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
     setSelectedChatId(chatId);
     router.push(`/dashboard/product/${productId}/chat/${chatId}`);
   };
-  const deleteChatHandler = () => {};
+  // const deleteChatHandler = () => {};
   const editChatNameHandler = () => {};
   return (
     <div
@@ -34,10 +34,10 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
           className="cursor-pointer hidden group-hover:block"
           onClick={editChatNameHandler}
         />
-        <BinIcon
+        {/* <BinIcon
           className="cursor-pointer hidden group-hover:block"
           onClick={deleteChatHandler}
-        />
+        /> */}
         <RightChevronIcon
           className="cursor-pointer"
           onClick={openChatHandler}
