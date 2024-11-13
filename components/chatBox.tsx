@@ -7,6 +7,7 @@ import { useChatStore } from "@store/chatStore";
 import { useParams, useRouter } from "next/navigation";
 import { useProductStore } from "@store/productsStore";
 import { usePageStore } from "@store/pageStore";
+import { FaSpinner } from "react-icons/fa";
 
 interface ChatboxProps {
   suggestionsPosition: "above" | "below";
