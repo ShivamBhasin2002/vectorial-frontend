@@ -1,7 +1,6 @@
 "use client";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
-import { IoOpenSharp } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { useChatStore } from "@store/chatStore";
 import { useParams, useRouter } from "next/navigation";
@@ -100,15 +99,6 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           !showSuggestions && "mt-4"
         )}
       >
-        <li
-          className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
-          onClick={() => {
-            setSideBarState("Description");
-            router.push(`/dashboard/product/${selectedProductId}`);
-          }}
-        >
-          <IoOpenSharp />
-        </li>
         <li
           className="w-8 h-8 bg-green cursor-pointer rounded-lg flex justify-center items-center text-white hover:bg-green/90"
           onClick={() => {
