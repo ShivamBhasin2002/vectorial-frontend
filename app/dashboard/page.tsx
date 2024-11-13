@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 // import { AUTH_API_ENDPOINT } from "@constants/restConstants";
 
 export default async function Home() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const authToken = cookieStore.get("authToken");
   if (!authToken) redirect("/auth/login", RedirectType.replace);
 
