@@ -6,6 +6,7 @@ import React, { FormEvent, useRef } from "react";
 import nookies from "nookies";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import VectorialLogo from "@assets/icons/vectorialLogo";
 
 const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
   const router = useRouter();
@@ -106,8 +107,9 @@ const AuthModal = ({ isLogin }: { isLogin?: boolean }) => {
       <ToastContainer />
       <div className="h-full w-100   bg-white rounded-[48px] origin-top-left shadow-[0_2px_2px_1px_rgba(0,0,0,0.25)] p-[24px] flex flex-col gap-10 justify-between overflow-y-scroll">
         <section>
-          <div className="text-[48px] font-semibold text-center">
-            {showLogin ? "Sign in to" : "Sign up for"} your account
+          <div className="text-[48px] font-semibold text-center flex gap-4 justify-center items-center">
+            <VectorialLogo width={40} height={40} />
+            Vectorial AI
           </div>
           <div className="text-[24px] text-gray-500 text-center">
             {showLogin

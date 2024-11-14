@@ -6,10 +6,10 @@ const LoginPage = () => {
     <div className="w-screen h-screen px-16 pt-16">
       <div className="w-full h-full bg-cream rounded-t-[42px] flex p-8 gap-6 justify-between">
         <div className="flex flex-col gap-2 just min-w-[50%] w-[50%] justify-center">
-          <div className="font-extrabold text-[48px] whitespace-pre-wrap">
-            Bring autonomy to Product Development
+          <div className="font-extrabold text-[64px] whitespace-pre-wrap">
+            Bring Autonomy to Product Development
           </div>
-          <p className="text-[16px]  whitespace-pre-wrap">
+          <p className="text-[24px] italic whitespace-pre-wrap">
             Product-OS powered by Agents that work with you
           </p>
         </div>
