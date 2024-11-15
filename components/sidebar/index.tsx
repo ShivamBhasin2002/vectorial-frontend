@@ -7,11 +7,11 @@ import Description from "./description";
 
 export const SideBar = () => {
   const { sideBarState, setSideBarState } = usePageStore();
-  const sideBarTabs: sideBarStates[] = [
-    "Chats",
-    "Files",
-    "Transcripts",
-    "Description",
+  const sideBarTabs: { type: sideBarStates; displayName: string }[] = [
+    { type: "Chats", displayName: "Sessions" },
+    { type: "Files", displayName: "Sources" },
+    { type: "Transcripts", displayName: "Transcripts" },
+    { type: "Description", displayName: "Description" },
   ];
   const onClick = (tab: string) => {
     setSideBarState(tab as sideBarStates);

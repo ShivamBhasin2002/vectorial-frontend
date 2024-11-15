@@ -69,7 +69,7 @@ export const FilesListing = ({ fileType }: { fileType: sideBarStates }) => {
       >
         <UploadIcon />
         <div className="whitespace-nowrap text-white font-bold">
-          New {fileType === "Files" ? "File" : "Transcript"}
+          New {fileType === "Files" ? "Source" : "Transcript"}
         </div>
       </label>
       <input
