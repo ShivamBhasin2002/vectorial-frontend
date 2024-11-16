@@ -1,5 +1,5 @@
 "use client";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { FaEye, FaSignOutAlt } from "react-icons/fa";
 import { useProductStore } from "@store/productsStore";
 import { useRouter } from "next/navigation";
@@ -9,12 +9,17 @@ import { VscExtensions } from "react-icons/vsc";
 import nookies from "nookies";
 import { useUserStore } from "@store/userStore";
 import VectorialLogo from "@assets/icons/vectorialLogo";
+import clsx from "clsx";
+import ProjectsIcon from "@assets/icons/projectsIcon";
+import { BiChevronDown } from "react-icons/bi";
 
 const Navbar = () => {
   const router = useRouter();
-  const { products, fetchProducts } = useProductStore();
+  const { products, fetchProducts, selectedProductId, setSelectedProduct } =
+    useProductStore();
   const { toggleNewProductPanelOpen } = usePageStore();
   const { email, username, authUser } = useUserStore();
+  const [isProjectSectionExpanded, toggleProjectSection] = useState(false);
 
   useLayoutEffect(() => {
     fetchProducts();
@@ -39,27 +44,49 @@ const Navbar = () => {
             Vectorial AI
           </div>
         </div>
-        {/* <div className="flex-1 w-full block">
-          <ul className="overflow-y-auto">
-            {Object.values(products).map((product, index) => (
-              <li
-                key={index}
-                className={clsx(
-                  "truncate px-2 py-1 hover:bg-darkGrey hover:font-bold rounded-lg cursor-pointer mb-1",
-                  selectedProductId === product.productId &&
-                    "bg-darkGrey font-bold"
-                )}
-                title={product.productName}
-                onClick={() => {
-                  setSelectedProduct(product.productId);
-                  router.push(`/dashboard/product/${product.productId}`);
-                }}
-              >
-                {product.productName}
-              </li>
-            ))}
-          </ul>
-        </div> */}
+        <div className="px-4 py-3 w-[calc(100%-1.5rem)] block bg-white mx-3 my-4 rounded-xl">
+          <div
+            className="flex gap-3 items-center pb-3 text-sm cursor-pointer"
+            onClick={() => {
+              toggleProjectSection((state:boolean) => !state);
+            }}
+          >
+            <ProjectsIcon />
+            Select Project:
+            <BiChevronDown className={clsx("ml-auto text-xl", isProjectSectionExpanded&&'rotate-180')} />
+          </div>
+          {!isProjectSectionExpanded && (
+            <div className="text-xs">
+              Selected Project:{" "}
+              <span className="font-bold">
+                {selectedProductId && products[selectedProductId]?.productName}
+              </span>
+            </div>
+          )}
+          {isProjectSectionExpanded && (
+            <ul className="overflow-y-auto">
+              {Object.values(products).map((product, index) => (
+                <li
+                  key={index}
+                  className={clsx(
+                    "truncate text-xs cursor-pointer mb-2",
+                    selectedProductId === product.productId
+                      ? "font-bold"
+                      : "hover:bg-borderGray/10"
+                  )}
+                  title={product.productName}
+                  onClick={() => {
+                    setSelectedProduct(product.productId);
+                    toggleProjectSection(false);
+                    router.push(`/dashboard/product/${product.productId}`);
+                  }}
+                >
+                  {product.productName}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
         <div className="mt-auto flex gap-2 p-3 flex-col w-full">
           <button
