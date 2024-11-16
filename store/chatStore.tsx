@@ -15,8 +15,9 @@ export interface ChatMessage {
 const getRagResponse = async (args: {
   productId: string;
   chatId: string;
-  message: string;
-}): Promise<string> => {
+  message?: string | null;
+}): Promise<string | null> => {
+  if (!args.message) return Promise.resolve(null);
   try {
     const chatRequest = {
       product_id: args.productId,
@@ -53,16 +54,24 @@ interface ChatState {
   ) => void;
   fetchChat?: (chatId: string) => void;
   upsertChat: (args: {
-    message: string;
+    message?: string | null;
     chatId: string | null;
     productId?: string | null;
     chatHistory: Chat["chatMessages"];
+    chatTitle: string;
   }) => Promise<void>;
   handleNewMessage: (args: {
     message: string;
     chatId: string | null;
     productId?: string;
     chatHistory: Chat["chatMessages"];
+  }) => void;
+  deleteChat: ({
+    chatId,
+    selectedProductId,
+  }: {
+    chatId: string;
+    selectedProductId: string;
   }) => void;
 }
 
@@ -118,15 +127,17 @@ export const useChatStore = create<ChatState>((set) => ({
     chatHistory,
     chatId: chatIdFromProps,
     productId,
+    chatTitle,
   }) => {
     let chatId = chatIdFromProps;
-    const updatedChat = [
-      ...(chatHistory ?? []),
-      { senderType: "User", message },
-    ];
+    console.log(chatTitle);
+    const updatedChat = message
+      ? [...(chatHistory ?? []), { senderType: "User", message }]
+      : chatHistory;
     set(({ byChatId }) => {
       if (!chatId) return {};
       byChatId[chatId].chatMessages = updatedChat;
+      byChatId[chatId].chatTitle = chatTitle || byChatId[chatId].chatTitle;
       upsertChat(byChatId[chatId]);
       return { byChatId, showLoading: true };
     });
@@ -135,7 +146,7 @@ export const useChatStore = create<ChatState>((set) => ({
         chatId: null,
         productId: productId ?? "",
         userId: null,
-        chatTitle: "Untitiled Chat",
+        chatTitle,
         createAt: Date.now().toString(),
         updatedAt: Date.now().toString(),
         chatMessages: updatedChat,
@@ -147,26 +158,30 @@ export const useChatStore = create<ChatState>((set) => ({
       message,
       chatId,
     });
-    await upsertChat({
-      chatId,
-      productId: productId ?? "",
-      userId: null,
-      chatTitle: "Untitiled Chat",
-      createAt: Date.now().toString(),
-      updatedAt: Date.now().toString(),
-      chatMessages: [...updatedChat, { senderType: "AI", message: aiResponse }],
-      fileUris: [],
-    });
+    if (aiResponse)
+      await upsertChat({
+        chatId,
+        productId: productId ?? "",
+        userId: null,
+        chatTitle,
+        createAt: Date.now().toString(),
+        updatedAt: Date.now().toString(),
+        chatMessages: [
+          ...updatedChat,
+          { senderType: "AI", message: aiResponse },
+        ],
+        fileUris: [],
+      });
     if (!chatIdFromProps)
       window.open(`/dashboard/product/${productId}/chat/${chatId}`, "_self");
     set(({ byChatId }) => {
-      if (!chatId) return {};
+      if (!chatId || !aiResponse) return {};
       if (byChatId[chatId])
         byChatId[chatId] = {
           chatId,
           productId: productId ?? "",
           userId: null,
-          chatTitle: "Untitiled Chat",
+          chatTitle,
           createAt: Date.now().toString(),
           updatedAt: Date.now().toString(),
           chatMessages: [
@@ -184,5 +199,15 @@ export const useChatStore = create<ChatState>((set) => ({
       return { byChatId, selectedChatId: chatId };
     });
     set({ showLoading: false });
+  },
+  deleteChat: async ({ chatId, selectedProductId }) => {
+    set(({ byChatId, byProductId }) => {
+      delete byChatId[chatId];
+      byProductId[selectedProductId] = byProductId[selectedProductId].filter(
+        (cId) => chatId !== cId
+      );
+      return { byChatId, byProductId };
+    });
+    await axios.delete(`${DATA_STORAGE_SERVICE_ENDPOINT}/api/chats/${chatId}`);
   },
 }));

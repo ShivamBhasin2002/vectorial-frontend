@@ -1,25 +1,57 @@
 // import { BinIcon } from "@assets/icons/binIcon";
+import { BinIcon } from "@assets/icons/binIcon";
 import { ChatIcon } from "@assets/icons/chaticon";
 import { EditIcon } from "@assets/icons/editIcon";
 import { RightChevronIcon } from "@assets/icons/rightChevron";
 import { Chat } from "@constants/types/chat";
 import { useChatStore } from "@store/chatStore";
+import { useProductStore } from "@store/productsStore";
 import clsx from "clsx";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
-import { FaPlus } from "react-icons/fa";
+import React, { useRef, useState } from "react";
+import { FaCheck, FaPlus } from "react-icons/fa";
 
 const ChatComponent = ({ chatTitle, chatId }: Chat) => {
-  const { setSelectedChatId, selectedChatId } = useChatStore();
+  const {
+    setSelectedChatId,
+    selectedChatId,
+    upsertChat,
+    byChatId,
+    deleteChat,
+  } = useChatStore();
+  const { selectedProductId } = useProductStore();
   const { productId } = useParams();
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [isChatEditEnabled, toggleChatEdit] = useState(false);
+  if (!chatId) return null;
   const openChatHandler = () => {
     if (!chatId) return;
     setSelectedChatId(chatId);
     router.push(`/dashboard/product/${productId}/chat/${chatId}`);
   };
-  // const deleteChatHandler = () => {};
-  const editChatNameHandler = () => {};
+  const deleteChatHandler = () => {
+    if (!chatId || !selectedProductId) return;
+    deleteChat({ chatId, selectedProductId });
+  };
+  const editChatNameHandler = () => {
+    if (!isChatEditEnabled) {
+      toggleChatEdit(true);
+      return;
+    }
+    const inputValue = inputRef.current?.value;
+    const chatHistory = byChatId[chatId]?.chatMessages;
+    const defaultChatTitle = byChatId[chatId].chatTitle ?? "Untitled Chat";
+    if (inputValue && inputValue !== chatTitle) {
+      upsertChat({
+        chatHistory,
+        chatId,
+        productId: selectedProductId,
+        chatTitle: inputValue || defaultChatTitle,
+      });
+    }
+    toggleChatEdit(false);
+  };
   return (
     <div
       className={clsx(
@@ -28,16 +60,32 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
       )}
     >
       <ChatIcon className="mr-4" />
-      <div className="w-[180px]">{chatTitle}</div>
-      <div className="flex gap-2 ml-auto">
-        <EditIcon
-          className="cursor-pointer hidden group-hover:block"
-          onClick={editChatNameHandler}
+      {isChatEditEnabled ? (
+        <input
+          className="w-[180px] outline-none bg-transparent h-[24px]"
+          defaultValue={chatTitle ?? ""}
+          onBlur={editChatNameHandler}
+          ref={inputRef}
         />
-        {/* <BinIcon
+      ) : (
+        <div className="w-[180px]">{chatTitle}</div>
+      )}
+      <div className="flex gap-2 ml-auto">
+        {isChatEditEnabled ? (
+          <FaCheck
+            className="text-[#A1824A] w-4 h-7"
+            onClick={editChatNameHandler}
+          />
+        ) : (
+          <EditIcon
+            className="cursor-pointer hidden group-hover:block"
+            onClick={editChatNameHandler}
+          />
+        )}
+        <BinIcon
           className="cursor-pointer hidden group-hover:block"
           onClick={deleteChatHandler}
-        /> */}
+        />
         <RightChevronIcon
           className="cursor-pointer"
           onClick={openChatHandler}

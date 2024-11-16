@@ -1,8 +1,9 @@
+import VectorialLogo from "@assets/icons/vectorialLogo";
 import { useChatStore } from "@store/chatStore";
 import clsx from "clsx";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef } from "react";
-import { FaRobot, FaSpinner, FaUser } from "react-icons/fa";
+import { FaSpinner, FaUser } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 
 export const ChatInterface = () => {
@@ -44,7 +45,7 @@ export const ChatInterface = () => {
         >
           {msg.senderType === "AI" && (
             <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown mr-3 mt-auto text-white">
-              <FaRobot className="text-xl" />
+              <VectorialLogo className="text-xl" />
             </div>
           )}
           <div
@@ -68,7 +69,7 @@ export const ChatInterface = () => {
         <div className="flex justify-start">
           <div className="flex items-center rounded-xl max-w-4/5 p-3">
             <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown mr-3 mt-auto text-white">
-              <FaRobot className="text-xl" />
+              <VectorialLogo className="text-xl" />
             </div>
             <FaSpinner className="text-xl animate-spin" />
           </div>

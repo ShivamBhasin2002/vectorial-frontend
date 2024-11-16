@@ -34,7 +34,7 @@ const FileComponet = ({
       >
         {fileName}
       </a>
-      <BinIcon className="w-7 h-7 flex-shrink-0" onClick={deleteFileHandler} />
+      <BinIcon className="w-7 h-7 flex-shrink-0 cursor-pointer" onClick={deleteFileHandler} />
     </div>
   );
 };

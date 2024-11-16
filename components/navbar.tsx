@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { FaEye, FaSignOutAlt } from "react-icons/fa";
 import { useProductStore } from "@store/productsStore";
 import { useRouter } from "next/navigation";
@@ -16,9 +16,13 @@ const Navbar = () => {
   const { toggleNewProductPanelOpen } = usePageStore();
   const { email, username, authUser } = useUserStore();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchProducts();
-    authUser();
+    authUser({
+      onAuthFail: () => {
+        router.replace("/auth/login");
+      },
+    });
   }, []);
 
   return (

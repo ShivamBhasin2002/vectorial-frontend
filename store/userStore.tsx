@@ -6,13 +6,13 @@ import nookies from "nookies";
 interface UserState {
   email: string | null;
   username: string | null;
-  authUser: () => void;
+  authUser: ({ onAuthFail }: { onAuthFail: () => void }) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
   email: null,
   username: null,
-  authUser: async () => {
+  authUser: async ({ onAuthFail }) => {
     const cookies = nookies.get();
     const authToken = cookies["authToken"];
     try {
@@ -23,8 +23,10 @@ export const useUserStore = create<UserState>((set) => ({
       });
       const { name, email } = res.data;
       set({ email, username: name });
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       console.log(err);
+      if (err.status === 403) onAuthFail();
     }
   },
 }));
