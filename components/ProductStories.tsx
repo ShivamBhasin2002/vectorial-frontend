@@ -111,11 +111,16 @@ export const ProductStoryComponent = ({
   tag,
   sources,
   productId,
-  chatId
+  chatId,
 }: TProductStoryData) => {
-  const router = useRouter()
+  const router = useRouter();
   return (
-    <div className="p-4 hover:bg-[#F5F0E5] cursor-pointer pb-4 border-b border-dashed border-brown" onClick={()=>{router.push(`/dashboard/product/${productId}/chat/`)}}>
+    <div
+      className="p-4 hover:bg-[#F5F0E5] cursor-pointer pb-4 border-b border-dashed border-brown"
+      onClick={() => {
+        router.push(`/dashboard/product/${productId}/chat/${chatId}`);
+      }}
+    >
       <div className="mb-1 text-sm">
         <span className="text-[#B88A1E] font-bold">{title}</span>
         <span className="text-brown"> - </span>
