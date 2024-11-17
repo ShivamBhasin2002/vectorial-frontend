@@ -1,3 +1,4 @@
+"use client"
 import { LinkIcon } from "@assets/icons/linkIcon";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
