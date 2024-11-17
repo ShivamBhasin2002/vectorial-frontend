@@ -15,7 +15,7 @@ interface ProductState {
     productId: string;
     fileType: sideBarStates;
   }) => Promise<void>;
-  setSelectedProduct: (product: string) => void;
+  setSelectedProduct: (product: string, setChatId?: boolean) => void;
   createProduct: (product: {
     productName: string;
     productDescription: string;
@@ -68,11 +68,14 @@ const upsertProduct = async ({ product }: { product: Product }) => {
 
 export const useProductStore = create<ProductState>((set) => ({
   products: {},
-  selectedProductId: null,
-  setSelectedProduct: (selectedProductId: string) => {
+  selectedProductId: undefined,
+  setSelectedProduct: (selectedProductId, setChatId) => {
     if (!selectedProductId) return;
     set({ selectedProductId });
-    useChatStore.getState().fetchChatsByProductId(selectedProductId);
+    useChatStore.getState().fetchChatsByProductId({
+      productId: selectedProductId,
+      setLatestChatId: setChatId,
+    });
   },
   fetchProducts: async () => {
     try {
@@ -87,13 +90,13 @@ export const useProductStore = create<ProductState>((set) => ({
         }),
         {}
       );
-      const { productId: latestProductId } = productsArr.reduce((arr, curr) => {
-        if (!arr) return curr;
-        if (arr.createdAt && !curr.createdAt) return arr;
-        if (!arr.createdAt && curr.createdAt) return curr;
-        if (arr.createdAt > curr.createdAt) return curr;
-        if (arr.createdAt < curr.createdAt) return arr;
-        return arr;
+      const { productId: latestProductId } = productsArr.reduce((acc, curr) => {
+        if (!acc) return curr;
+        if (acc.createdAt && !curr.createdAt) return acc;
+        if (!acc.createdAt && curr.createdAt) return curr;
+        if (acc.createdAt > curr.createdAt) return curr;
+        if (acc.createdAt < curr.createdAt) return acc;
+        return curr;
       });
       set(({ selectedProductId }) => ({
         products,

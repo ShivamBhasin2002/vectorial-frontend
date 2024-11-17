@@ -2,7 +2,6 @@
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useChatStore } from "@store/chatStore";
-import { useParams } from "next/navigation";
 import { useProductStore } from "@store/productsStore";
 import { FaSpinner } from "react-icons/fa";
 import { SendIcon } from "@assets/icons/sendIcon";
@@ -30,15 +29,14 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
     useChatStore();
   const { selectedProductId } = useProductStore();
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const { chatId } = useParams();
 
   useEffect(() => {
     if (suggestionsPosition === "below") return;
-    if (!chatId && !inputRef.current?.value) toggleSuggestions(true);
+    if (!selectedChatId && !inputRef.current?.value) toggleSuggestions(true);
     else {
       toggleSuggestions(false);
     }
-  }, [chatId]);
+  }, [selectedChatId]);
 
   const handleSubmit = async () => {
     const message = inputRef.current?.value;
@@ -51,10 +49,10 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       ? byChatId[selectedChatId].chatTitle ?? "Untitled Chat"
       : "Untitled Chat";
     toggleLoading(true);
-    handleNewMessage({ message, chatId: selectedChatId, chatHistory });
+    handleNewMessage({ message, chatId: selectedChatId ?? null, chatHistory });
     await upsertChat({
       message,
-      chatId: selectedChatId,
+      chatId: selectedChatId ?? null,
       chatHistory,
       productId: selectedProductId,
       chatTitle,
@@ -87,7 +85,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   return (
     <>
       {suggestionsPosition === "above" &&
-        showSuggestions &&
+        !selectedChatId &&
         renderSuggestions()}
       <div className="w-full mx-auto relative">
         <textarea
@@ -119,7 +117,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
         </li>
       </div>
       {suggestionsPosition === "below" &&
-        showSuggestions &&
+        !selectedChatId &&
         renderSuggestions()}
     </>
   );

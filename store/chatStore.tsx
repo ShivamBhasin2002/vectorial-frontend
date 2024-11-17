@@ -42,16 +42,22 @@ const getRagResponse = async (args: {
 };
 
 interface ChatState {
-  selectedChatId: string | null;
+  selectedChatId?: string | null;
   showLoading: boolean;
   byProductId: Record<string, string[]>;
   byChatId: Record<string, Chat>;
-  setSelectedChatId: (chatId: string) => void;
-  fetchChatsByProductId: (
-    productId: string,
-    pageSize?: number,
-    pageToken?: number
-  ) => void;
+  setSelectedChatId: (chatId: string | null) => void;
+  fetchChatsByProductId: ({
+    productId,
+    pageSize,
+    pageToken,
+    setLatestChatId,
+  }: {
+    productId: string;
+    pageSize?: number;
+    pageToken?: number;
+    setLatestChatId?: boolean;
+  }) => void;
   fetchChat?: (chatId: string) => void;
   upsertChat: (args: {
     message?: string | null;
@@ -91,7 +97,12 @@ export const useChatStore = create<ChatState>((set) => ({
   setSelectedChatId: (chatId) => {
     set({ selectedChatId: chatId });
   },
-  fetchChatsByProductId: async (productId, pageSize = 25, pageToken) => {
+  fetchChatsByProductId: async ({
+    productId,
+    pageSize = 25,
+    pageToken,
+    setLatestChatId,
+  }) => {
     const res = await axios.get<{ chats: Chat[] }>(
       `${DATA_STORAGE_SERVICE_ENDPOINT}/api/chats/product/${productId}/list?pageSize=${pageSize}${
         pageToken ? `&pageToken=${pageToken}` : ""
@@ -100,6 +111,18 @@ export const useChatStore = create<ChatState>((set) => ({
     const chatsById = res.data.chats.reduce(
       (acc, chat) => ({ ...(acc ?? {}), [chat.chatId || ""]: chat }),
       {}
+    );
+    const { chatId: latestChatId } = res.data.chats.reduce(
+      (acc: Chat, chat: Chat) => {
+        if (!acc) return chat;
+        if (acc.updatedAt && !chat.updatedAt) return acc;
+        if (!acc.updatedAt && chat.updatedAt) return chat;
+        if (acc.updatedAt && chat.updatedAt && acc.updatedAt > chat.updatedAt)
+          return chat;
+        if (acc.updatedAt && chat.updatedAt && acc.updatedAt < chat.updatedAt)
+          return acc;
+        return chat;
+      }
     );
     set(({ byProductId, byChatId }) => ({
       byChatId: { ...byChatId, ...chatsById },
@@ -112,6 +135,7 @@ export const useChatStore = create<ChatState>((set) => ({
           ),
         ],
       },
+      ...(setLatestChatId && { selectedChatId: latestChatId }),
     }));
   },
   handleNewMessage: ({ message, chatHistory, chatId }) => {
@@ -130,7 +154,6 @@ export const useChatStore = create<ChatState>((set) => ({
     chatTitle,
   }) => {
     let chatId = chatIdFromProps;
-    console.log(chatTitle);
     const updatedChat = message
       ? [...(chatHistory ?? []), { senderType: "User", message }]
       : chatHistory;

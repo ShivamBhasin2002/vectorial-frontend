@@ -28,10 +28,14 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
   const openChatHandler = () => {
     if (!chatId) return;
     setSelectedChatId(chatId);
-    router.push(`/dashboard/product/${productId}/chat/${chatId}`);
+    router.replace(`/dashboard/product/${productId}/chat/${chatId}`);
   };
   const deleteChatHandler = () => {
     if (!chatId || !selectedProductId) return;
+    if (chatId === selectedChatId) {
+      setSelectedChatId(null);
+      router.replace(`/dashboard/product/${productId}`);
+    }
     deleteChat({ chatId, selectedProductId });
   };
   const editChatNameHandler = () => {
@@ -98,7 +102,7 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
 export const ChatsListing = () => {
   const router = useRouter();
   const { productId } = useParams();
-  const { byProductId, byChatId } = useChatStore();
+  const { byProductId, byChatId, setSelectedChatId } = useChatStore();
   const chats = byProductId[productId as string]?.map(
     (chatId) => byChatId[chatId]
   );
@@ -110,6 +114,7 @@ export const ChatsListing = () => {
       <button
         className="focus:outline-none flex gap-2 justify-center items-center p-2 w-full text-white bg-green h-12 mt-auto rounded-3xl"
         onClick={() => {
+          setSelectedChatId(null);
           router.push(`/dashboard/product/${productId}`);
         }}
       >

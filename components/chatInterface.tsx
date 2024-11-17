@@ -10,14 +10,15 @@ export const ChatInterface = () => {
   const { productId } = useParams() as Record<string, string>;
   const { selectedChatId, byChatId, fetchChatsByProductId, showLoading } =
     useChatStore();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const chatHistory = selectedChatId
     ? byChatId[selectedChatId]?.chatMessages ?? []
     : [];
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!selectedChatId && productId) return;
-    fetchChatsByProductId(productId);
+    if (!selectedChatId || !productId || chatHistory.length > 0) return;
+    fetchChatsByProductId({ productId });
   }, [selectedChatId, fetchChatsByProductId, productId]);
 
   useEffect(() => {

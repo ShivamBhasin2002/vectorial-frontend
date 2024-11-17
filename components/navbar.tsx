@@ -48,12 +48,17 @@ const Navbar = () => {
           <div
             className="flex gap-3 items-center pb-3 text-sm cursor-pointer"
             onClick={() => {
-              toggleProjectSection((state:boolean) => !state);
+              toggleProjectSection((state: boolean) => !state);
             }}
           >
             <ProjectsIcon />
             Select Project:
-            <BiChevronDown className={clsx("ml-auto text-xl", isProjectSectionExpanded&&'rotate-180')} />
+            <BiChevronDown
+              className={clsx(
+                "ml-auto text-xl",
+                isProjectSectionExpanded && "rotate-180"
+              )}
+            />
           </div>
           {!isProjectSectionExpanded && (
             <div className="text-xs">
@@ -76,7 +81,7 @@ const Navbar = () => {
                   )}
                   title={product.productName}
                   onClick={() => {
-                    setSelectedProduct(product.productId);
+                    setSelectedProduct(product.productId, true);
                     toggleProjectSection(false);
                     router.push(`/dashboard/product/${product.productId}`);
                   }}
