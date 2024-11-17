@@ -17,11 +17,12 @@ const config: Config = {
         borderGray: "#D8D9D4",
         brown: "#A1824A",
         offwhite: "#f9f9f8",
-        purps: "#665cc8",
-        grey: "#e2e3e1",
+        purps: "#E81ECD",
+        grey: "#009963",
         darkGrey: "#EFEFEE",
-        blue: "#0B2230",
+        blue: "#2300BF",
         yellow: "#F9D133",
+        red: "#FF0000",
 
         primary: {
           0: "var(--primary-0)",

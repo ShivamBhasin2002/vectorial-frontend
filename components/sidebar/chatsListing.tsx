@@ -73,7 +73,7 @@ const ChatComponent = ({ chatTitle, chatId }: Chat) => {
       <div className="flex gap-2 ml-auto">
         {isChatEditEnabled ? (
           <FaCheck
-            className="text-[#A1824A] w-4 h-7"
+            className="text-brown w-4 h-7"
             onClick={editChatNameHandler}
           />
         ) : (

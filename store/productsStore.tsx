@@ -8,7 +8,7 @@ import { sideBarStates } from "./pageStore";
 
 interface ProductState {
   products: Record<string, Product>;
-  selectedProductId: string | null;
+  selectedProductId?: string | null;
   fetchProducts: () => void;
   uploadFile: (args: {
     files: FileList;
@@ -87,7 +87,19 @@ export const useProductStore = create<ProductState>((set) => ({
         }),
         {}
       );
-      set({ products });
+      const { productId: latestProductId } = productsArr.reduce((arr, curr) => {
+        if (!arr) return curr;
+        if (arr.createdAt && !curr.createdAt) return arr;
+        if (!arr.createdAt && curr.createdAt) return curr;
+        if (arr.createdAt > curr.createdAt) return curr;
+        if (arr.createdAt < curr.createdAt) return arr;
+        return arr;
+      });
+      set(({ selectedProductId }) => ({
+        products,
+        selectedProductId:
+          selectedProductId === undefined ? latestProductId : selectedProductId,
+      }));
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
