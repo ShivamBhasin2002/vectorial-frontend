@@ -1,5 +1,6 @@
 import { LinkIcon } from "@assets/icons/linkIcon";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type TProductStoryData = {
@@ -7,6 +8,8 @@ type TProductStoryData = {
   title: string;
   tag: "concern" | "win" | "insight" | "opportunity";
   sources: string[];
+  productId: string;
+  chatId: string;
 };
 
 const productStoryData: TProductStoryData[] = [
@@ -16,6 +19,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "concern",
     sources: ["Amplitude", "Interview Transcripts"],
+    productId: "p1",
+    chatId: "c1",
   },
   {
     heading:
@@ -23,6 +28,8 @@ const productStoryData: TProductStoryData[] = [
     title: "EHR editor",
     tag: "win",
     sources: ["Survey"],
+    productId: "p2",
+    chatId: "c2",
   },
   {
     heading:
@@ -30,6 +37,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "insight",
     sources: ["Amplitude"],
+    productId: "p3",
+    chatId: "c3",
   },
   {
     heading:
@@ -37,6 +46,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "opportunity",
     sources: ["User Interviews", "Survey Data"],
+    productId: "p4",
+    chatId: "c4",
   },
   {
     heading:
@@ -44,6 +55,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Patient Notes",
     tag: "concern",
     sources: ["Amplitude", "Support Tickets"],
+    productId: "p5",
+    chatId: "c5",
   },
   {
     heading:
@@ -51,6 +64,8 @@ const productStoryData: TProductStoryData[] = [
     title: "EHR Interface",
     tag: "win",
     sources: ["Amplitude", "Survey"],
+    productId: "p6",
+    chatId: "c6",
   },
   {
     heading:
@@ -58,6 +73,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Appointment Scheduling",
     tag: "insight",
     sources: ["Amplitude", "Interview Transcripts"],
+    productId: "p7",
+    chatId: "c7",
   },
   {
     heading:
@@ -65,6 +82,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Patient Portal",
     tag: "concern",
     sources: ["Interview transcripts", "User Feedback"],
+    productId: "p8",
+    chatId: "c8",
   },
   {
     heading:
@@ -72,6 +91,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Medication Reminder",
     tag: "win",
     sources: ["Survey", "User Interviews"],
+    productId: "p9",
+    chatId: "c9",
   },
   {
     heading:
@@ -79,6 +100,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "concern",
     sources: ["Amplitude"],
+    productId: "p10",
+    chatId: "c10",
   },
 ];
 
@@ -87,9 +110,12 @@ export const ProductStoryComponent = ({
   title,
   tag,
   sources,
+  productId,
+  chatId
 }: TProductStoryData) => {
+  const router = useRouter()
   return (
-    <div className="p-4 hover:bg-[#F5F0E5] cursor-pointer pb-4 border-b border-dashed border-brown">
+    <div className="p-4 hover:bg-[#F5F0E5] cursor-pointer pb-4 border-b border-dashed border-brown" onClick={()=>{router.push(`/dashboard/product/${productId}/chat/`)}}>
       <div className="mb-1 text-sm">
         <span className="text-[#B88A1E] font-bold">{title}</span>
         <span className="text-brown"> - </span>
