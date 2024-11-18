@@ -20,8 +20,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "concern",
     sources: ["Amplitude", "Interview Transcripts"],
-    productId: "p1",
-    chatId: "c1",
+    productId: "323e7207-533b-4fe1-b161-2f68fe8334dc",
+    chatId: "f6985d02-3801-4662-81eb-cc359cfd2293",
   },
   {
     heading:
@@ -29,8 +29,8 @@ const productStoryData: TProductStoryData[] = [
     title: "EHR editor",
     tag: "win",
     sources: ["Survey"],
-    productId: "p2",
-    chatId: "c2",
+    productId: "323e7207-533b-4fe1-b161-2f68fe8334dc",
+    chatId: "b6437098-c4d2-4312-8b4e-93ea105bf5c8",
   },
   {
     heading:
@@ -38,8 +38,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "insight",
     sources: ["Amplitude"],
-    productId: "p3",
-    chatId: "c3",
+    productId: "323e7207-533b-4fe1-b161-2f68fe8334dc",
+    chatId: "f6985d02-3801-4662-81eb-cc359cfd2293",
   },
   {
     heading:
@@ -47,8 +47,8 @@ const productStoryData: TProductStoryData[] = [
     title: "Voice transcription",
     tag: "opportunity",
     sources: ["User Interviews", "Survey Data"],
-    productId: "p4",
-    chatId: "c4",
+    productId: "323e7207-533b-4fe1-b161-2f68fe8334dc",
+    chatId: "28d808a5-38d6-4551-89af-a2ddebc48915",
   },
   {
     heading:
@@ -56,54 +56,57 @@ const productStoryData: TProductStoryData[] = [
     title: "Patient Notes",
     tag: "concern",
     sources: ["Amplitude", "Support Tickets"],
-    productId: "p5",
-    chatId: "c5",
+    productId: "323e7207-533b-4fe1-b161-2f68fe8334dc",
+    chatId: "b0f8ef6e-7365-40da-ad41-ff11e7722a1f",
   },
-  {
-    heading:
-      "Recent update to the EHR interface has led to a 25% reduction in task completion time.",
-    title: "EHR Interface",
-    tag: "win",
-    sources: ["Amplitude", "Survey"],
-    productId: "p6",
-    chatId: "c6",
-  },
-  {
-    heading:
-      "Average physician schedules over 30 appointments per week through the app, with minimal friction.",
-    title: "Appointment Scheduling",
-    tag: "insight",
-    sources: ["Amplitude", "Interview Transcripts"],
-    productId: "p7",
-    chatId: "c7",
-  },
-  {
-    heading:
-      "40% of users report difficulty navigating the patient portal, resulting in decreased engagement.",
-    title: "Patient Portal",
-    tag: "concern",
-    sources: ["Interview transcripts", "User Feedback"],
-    productId: "p8",
-    chatId: "c8",
-  },
-  {
-    heading:
-      "Medication reminder feature achieves a 90% adherence rate among users.",
-    title: "Medication Reminder",
-    tag: "win",
-    sources: ["Survey", "User Interviews"],
-    productId: "p9",
-    chatId: "c9",
-  },
-  {
-    heading:
-      "Peak usage of voice transcription is during morning hours, showing high demand at the start of the workday",
-    title: "Voice transcription",
-    tag: "concern",
-    sources: ["Amplitude"],
-    productId: "p10",
-    chatId: "c10",
-  },
+  /*
+    Commented out for now as insight is not available for these headlines
+  */
+  // {
+  //   heading:
+  //     "Recent update to the EHR interface has led to a 25% reduction in task completion time.",
+  //   title: "EHR Interface",
+  //   tag: "win",
+  //   sources: ["Amplitude", "Survey"],
+  //   productId: "p6",
+  //   chatId: "c6",
+  // },
+  // {
+  //   heading:
+  //     "Average physician schedules over 30 appointments per week through the app, with minimal friction.",
+  //   title: "Appointment Scheduling",
+  //   tag: "insight",
+  //   sources: ["Amplitude", "Interview Transcripts"],
+  //   productId: "p7",
+  //   chatId: "c7",
+  // },
+  // {
+  //   heading:
+  //     "40% of users report difficulty navigating the patient portal, resulting in decreased engagement.",
+  //   title: "Patient Portal",
+  //   tag: "concern",
+  //   sources: ["Interview transcripts", "User Feedback"],
+  //   productId: "p8",
+  //   chatId: "c8",
+  // },
+  // {
+  //   heading:
+  //     "Medication reminder feature achieves a 90% adherence rate among users.",
+  //   title: "Medication Reminder",
+  //   tag: "win",
+  //   sources: ["Survey", "User Interviews"],
+  //   productId: "p9",
+  //   chatId: "c9",
+  // },
+  // {
+  //   heading:
+  //     "Peak usage of voice transcription is during morning hours, showing high demand at the start of the workday",
+  //   title: "Voice transcription",
+  //   tag: "concern",
+  //   sources: ["Amplitude"],
+  //   productId: "p10",
+  //   chatId: "c10",
+  // },
 ];
 
 export const ProductStoryComponent = ({

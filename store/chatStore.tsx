@@ -15,14 +15,15 @@ export interface ChatMessage {
 const getRagResponse = async (args: {
   productId: string;
   chatId: string;
-  message?: string | null;
-}): Promise<string | null> => {
-  if (!args.message) return Promise.resolve(null);
+  message?: string;
+  productStory?: string | null;
+}): Promise<string> => {
   try {
     const chatRequest = {
       product_id: args.productId,
       thread_id: args.chatId,
       human_input: args.message,
+      product_story: args.productStory,
     };
 
     const response = await axios.post<{ response: string }>(
@@ -65,6 +66,7 @@ interface ChatState {
     productId?: string | null;
     chatHistory: Chat["chatMessages"];
     chatTitle: string;
+    productStory?: string | null;
   }) => Promise<void>;
   handleNewMessage: (args: {
     message: string;
@@ -154,11 +156,17 @@ export const useChatStore = create<ChatState>((set) => ({
     chatId: chatIdFromProps,
     productId,
     chatTitle,
+    productStory,
   }) => {
     let chatId = chatIdFromProps;
     const updatedChat = message
       ? [...(chatHistory ?? []), { senderType: "User", message }]
       : chatHistory;
+  
+    let chatAgentProductStoryInput = productStory;
+    if(chatHistory.length != 0) {
+      chatAgentProductStoryInput = null;
+    }
     set(({ byChatId }) => {
       if (!chatId) return {};
       byChatId[chatId].chatMessages = updatedChat;
@@ -176,12 +184,19 @@ export const useChatStore = create<ChatState>((set) => ({
         updatedAt: Date.now().toString(),
         chatMessages: updatedChat,
         fileUris: [],
+        productStory: productStory ?? undefined,
       });
     }
+
+    if(message == null) {
+      throw new Error("Message cannot be blank");
+    }
+
     const aiResponse = await getRagResponse({
       productId: productId || "",
       message,
       chatId,
+      productStory: chatAgentProductStoryInput
     });
     if (aiResponse)
       await upsertChat({
@@ -196,6 +211,7 @@ export const useChatStore = create<ChatState>((set) => ({
           { senderType: "AI", message: aiResponse },
         ],
         fileUris: [],
+        productStory: productStory ?? undefined,
       });
     if (!chatIdFromProps)
       window.open(`/dashboard/product/${productId}/chat/${chatId}`, "_self");
@@ -214,6 +230,7 @@ export const useChatStore = create<ChatState>((set) => ({
             { senderType: "AI", message: aiResponse },
           ],
           fileUris: [],
+          productStory: productStory ?? undefined,
         };
       else if (byChatId[chatId])
         byChatId[chatId].chatMessages = [

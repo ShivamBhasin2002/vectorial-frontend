@@ -9,4 +9,5 @@ export interface Chat {
   updatedAt: string|null;
   chatMessages: Message[];
   fileUris: string[];
+  productStory?: string;
 }

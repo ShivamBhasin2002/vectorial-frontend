@@ -54,6 +54,11 @@ const Chatbox: React.FC<ChatboxProps> = ({
     const chatTitle = selectedChatId
       ? byChatId[selectedChatId].chatTitle ?? "Untitled Chat"
       : "Untitled Chat";
+
+    const productStory = selectedChatId
+      ? byChatId[selectedChatId].productStory
+      : null;
+
     toggleLoading(true);
     handleNewMessage({ message, chatId: selectedChatId ?? null, chatHistory });
     await upsertChat({
@@ -62,6 +67,7 @@ const Chatbox: React.FC<ChatboxProps> = ({
       chatHistory,
       productId: selectedProductId,
       chatTitle,
+      productStory,
     });
     toggleLoading(false);
   };
