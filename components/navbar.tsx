@@ -12,6 +12,7 @@ import VectorialLogo from "@assets/icons/vectorialLogo";
 import clsx from "clsx";
 import ProjectsIcon from "@assets/icons/projectsIcon";
 import { BiChevronDown } from "react-icons/bi";
+import { useChatStore } from "@store/chatStore";
 
 const Navbar = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const Navbar = () => {
   const { toggleNewProductPanelOpen } = usePageStore();
   const { email, username, authUser } = useUserStore();
   const [isProjectSectionExpanded, toggleProjectSection] = useState(false);
+  const { setSelectedChatId } = useChatStore();
 
   useLayoutEffect(() => {
     fetchProducts();
@@ -37,6 +39,7 @@ const Navbar = () => {
           className="flex gap-2 items-center cursor-pointer w-full p-5 border-b border-borderGray"
           onClick={() => {
             router.push("/dashboard");
+            setSelectedChatId(undefined);
           }}
         >
           <VectorialLogo />

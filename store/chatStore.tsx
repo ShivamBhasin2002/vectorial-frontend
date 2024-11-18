@@ -46,7 +46,7 @@ interface ChatState {
   showLoading: boolean;
   byProductId: Record<string, string[]>;
   byChatId: Record<string, Chat>;
-  setSelectedChatId: (chatId: string | null) => void;
+  setSelectedChatId: (chatId?: string | null) => void;
   fetchChatsByProductId: ({
     productId,
     pageSize,
