@@ -97,7 +97,8 @@ export const useProductStore = create<ProductState>((set) => ({
         if (acc.createdAt > curr.createdAt) return curr;
         if (acc.createdAt < curr.createdAt) return acc;
         return curr;
-      });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }, undefined as any);
       set(({ selectedProductId }) => ({
         products,
         selectedProductId:

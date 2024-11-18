@@ -3,8 +3,6 @@ import Navbar from "@components/navbar";
 import { redirect, RedirectType } from "next/navigation";
 import { cookies } from "next/headers";
 import { ProductStories } from "@components/ProductStories";
-// import axios from "axios";
-// import { AUTH_API_ENDPOINT } from "@constants/restConstants";
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -14,7 +12,7 @@ export default async function Home() {
   return (
     <main className="w-[calc(100%-60px)] mx-[30px] h-screen pt-[32px]">
       <Navbar />
-      <Chatbox suggestionsPosition="below" />
+      <Chatbox suggestionsPosition="below" showSuggestion showHeading />
       <ProductStories />
     </main>
   );

@@ -8,6 +8,8 @@ import { SendIcon } from "@assets/icons/sendIcon";
 
 interface ChatboxProps {
   suggestionsPosition: "above" | "below";
+  showSuggestion?: boolean;
+  showHeading?: boolean;
 }
 
 const suggestions = [
@@ -22,12 +24,16 @@ const suggestions = [
   "Prepare Research Questions",
 ];
 
-const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
-  const [showSuggestions, toggleSuggestions] = useState(true);
+const Chatbox: React.FC<ChatboxProps> = ({
+  suggestionsPosition,
+  showSuggestion,
+  showHeading,
+}) => {
+  const [showSuggestionState, toggleSuggestions] = useState(true);
   const [showLoading, toggleLoading] = useState(false);
   const { selectedChatId, upsertChat, byChatId, handleNewMessage } =
     useChatStore();
-  const { selectedProductId } = useProductStore();
+  const { selectedProductId, products } = useProductStore();
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -63,7 +69,10 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
   const renderSuggestions = () => (
     <div className="bg-white py-3 rounded-2xl w-full flex flex-col gap-3">
       <ul
-        className={clsx("flex gap-2 flex-wrap", !showSuggestions && "hidden")}
+        className={clsx(
+          "flex gap-2 flex-wrap",
+          !showSuggestion && !showSuggestionState && "hidden"
+        )}
       >
         {suggestions.map((suggestion) => (
           <li
@@ -87,11 +96,19 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
       {suggestionsPosition === "above" &&
         !selectedChatId &&
         renderSuggestions()}
+      {showHeading && (
+        <div className="text-sm -mb-2 text-brown font-bold">
+          Start a New Session
+        </div>
+      )}
       <div className="w-full mx-auto relative">
         <textarea
           ref={inputRef}
           className="w-full rounded-xl p-4 my-3 min-h-[84px] bg-cream relative outline-none text-black"
-          placeholder="Message to Vectorial AI Agent regarding Product"
+          placeholder={`Start a session within ${
+            (selectedProductId && products[selectedProductId]?.productName) ||
+            "..."
+          }`}
           onKeyDown={(e) => {
             if (e.key !== "Enter") return;
             e.preventDefault();
@@ -104,7 +121,7 @@ const Chatbox: React.FC<ChatboxProps> = ({ suggestionsPosition }) => {
           }}
         />
         <li
-          className="w-8 h-8 bg-green cursor-pointer rounded-full flex justify-center items-center text-white hover:bg-green/90 absolute right-6 bottom-7 z-50 "
+          className="w-8 h-8 bg-green cursor-pointer rounded-full flex justify-center items-center text-white hover:bg-green/90 absolute right-3 bottom-7 z-50 "
           onClick={() => {
             handleSubmit();
           }}

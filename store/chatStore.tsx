@@ -122,7 +122,9 @@ export const useChatStore = create<ChatState>((set) => ({
         if (acc.updatedAt && chat.updatedAt && acc.updatedAt < chat.updatedAt)
           return acc;
         return chat;
-      }
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      undefined as any
     );
     set(({ byProductId, byChatId }) => ({
       byChatId: { ...byChatId, ...chatsById },
