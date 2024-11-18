@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 import { FaSpinner, FaUser } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
-import gfm from 'remark-gfm';
+import gfm from "remark-gfm";
 
 export const ChatInterface = () => {
   const { productId } = useParams() as Record<string, string>;
@@ -16,8 +16,8 @@ export const ChatInterface = () => {
     ? byChatId[selectedChatId]?.chatMessages ?? []
     : [];
   const productStory = selectedChatId
-  ? byChatId[selectedChatId]?.productStory ?? null
-  : null;
+    ? byChatId[selectedChatId]?.productStory ?? null
+    : null;
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,33 +38,26 @@ export const ChatInterface = () => {
       className="overflow-y-auto max-h-[calc(100vh-131px)] rounded-xl  scroll-smooth text-black pr-2 py-6 relative"
     >
       <div className="w-full h-6 bg-gradient-to-b from-white to-transparent sticky -top-6" />
-      {
-        productStory && 
+      {productStory && (
         <div
           key={-1}
-          className={clsx(
-            "flex rounded-xl p-2 my-2",
-            "justify-start"
-          )}
+          className={clsx("flex rounded-xl p-2 my-2", "justify-start")}
         >
-          
           <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown mr-3 mt-auto text-white">
-              <VectorialLogo className="text-xl" />
-            </div>  
+            <VectorialLogo className="text-xl" />
+          </div>
           <div
             className={clsx(
               `rounded-xl max-w-4/5 min-w-[2.5%] p-4 bg-cream`,
               "justify-start mr-20"
             )}
           >
-            <ReactMarkdown
-              className="prose"
-              remarkPlugins={[gfm]} 
-              children={productStory}
-            />
+            <ReactMarkdown className="prose" remarkPlugins={[gfm]}>
+              {productStory}
+            </ReactMarkdown>
           </div>
         </div>
-      }
+      )}
       {chatHistory.map((msg, index) => (
         <div
           key={index}
@@ -88,11 +81,9 @@ export const ChatInterface = () => {
                 : "justify-start mr-20"
             )}
           >
-            <ReactMarkdown 
-              className="prose"
-              remarkPlugins={[gfm]} 
-              children={msg.message}
-            />
+            <ReactMarkdown className="prose" remarkPlugins={[gfm]}>
+              {msg.message}
+            </ReactMarkdown>
           </div>
           {msg.senderType === "User" && (
             <div className="flex items-center justify-center min-w-10 h-10 rounded-full bg-brown ml-3 mt-auto text-white">
