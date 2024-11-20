@@ -28,7 +28,7 @@ export const ConnectionTab = ({
         <div className="text-sm">{description}</div>
         <button
           className="focus:outline-none hover:bg-green/80 flex gap-2 justify-center items-center p-2 rounded-xl w-full bg-green text-white h-10 mt-auto overflow-hidden hover:scale-[0.98] transition-all"
-          disabled={!isIntegrated}
+          disabled={isIntegrated}
           onClick={() => {
             if (isIntegrated) return;
             toggleIntegrationModal(true);
