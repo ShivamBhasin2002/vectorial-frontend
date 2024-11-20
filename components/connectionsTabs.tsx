@@ -73,7 +73,7 @@ export const ConnectionTab = ({
               }}
             >
               <div className="whitespace-nowrap font-bold">
-                Confrim integration with {title}
+                Confirm integration with {title}
               </div>
             </button>
           </div>
