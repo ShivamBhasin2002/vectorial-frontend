@@ -24,6 +24,15 @@ const suggestions = [
   "Prepare Research Questions",
 ];
 
+const loadingMessages = [
+  "Analyzing questions..",
+  "Looking for Data sources..",
+  "Planning a response..",
+  "Crafting a response..",
+  "Critiquing the response..",
+  "Finishing it up..",
+];
+
 const Chatbox: React.FC<ChatboxProps> = ({
   suggestionsPosition,
   showSuggestion,
@@ -35,6 +44,17 @@ const Chatbox: React.FC<ChatboxProps> = ({
     useChatStore();
   const { selectedProductId, products } = useProductStore();
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const intervalRef = useRef<any>(null);
+  const [loadingMessageIdx, setLoadingMessage] = useState(0);
+
+  const switchLoadingMessages = () => {
+    if (loadingMessageIdx === loadingMessages.length - 1) {
+      clearInterval(intervalRef.current);
+      return;
+    }
+    setLoadingMessage((state) => state + 1);
+  };
 
   useEffect(() => {
     if (suggestionsPosition === "below") return;
@@ -60,6 +80,8 @@ const Chatbox: React.FC<ChatboxProps> = ({
       : null;
 
     toggleLoading(true);
+    setLoadingMessage(0);
+    intervalRef.current = setInterval(switchLoadingMessages, 2000);
     handleNewMessage({ message, chatId: selectedChatId ?? null, chatHistory });
     await upsertChat({
       message,
@@ -69,6 +91,7 @@ const Chatbox: React.FC<ChatboxProps> = ({
       chatTitle,
       productStory,
     });
+    clearInterval(intervalRef.current);
     toggleLoading(false);
   };
 
@@ -127,13 +150,16 @@ const Chatbox: React.FC<ChatboxProps> = ({
           }}
         />
         <li
-          className="w-8 h-8 bg-green cursor-pointer rounded-full flex justify-center items-center text-white hover:bg-green/90 absolute right-3 bottom-7 z-50 "
+          className="min-w-8 min-h-8 bg-green cursor-pointer rounded-full flex justify-center items-center text-white hover:bg-green/90 absolute right-3 bottom-7 z-50 px-4"
           onClick={() => {
             handleSubmit();
           }}
         >
           {showLoading ? (
-            <FaSpinner className="text-xl animate-spin text-white" />
+            <div className="flex gap-4">
+              <FaSpinner className="text-xl animate-spin text-white" />{" "}
+              {loadingMessages[loadingMessageIdx]}
+            </div>
           ) : (
             <SendIcon />
           )}
