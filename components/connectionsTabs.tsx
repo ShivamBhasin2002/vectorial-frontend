@@ -14,7 +14,9 @@ export const ConnectionTab = ({
   description: string;
 }) => {
   const [isIntegrated, toggleIntegrate] = useState(
-    localStorage.getItem(title) === "true"
+    typeof window !== "undefined"
+      ? localStorage.getItem(title) === "true"
+      : false
   );
   const [showIntegrationModal, toggleIntegrationModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -69,7 +71,8 @@ export const ConnectionTab = ({
               onClick={() => {
                 toggleIntegrationModal(false);
                 toggleIntegrate(true);
-                localStorage.setItem(title, "true");
+                if (typeof window !== "undefined")
+                  localStorage.setItem(title, "true");
               }}
             >
               <div className="whitespace-nowrap font-bold">
